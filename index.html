@@ -478,7 +478,7 @@ async function loadLive(){
     $('btnLogin').textContent = '載入中…';
     const meta = await api('?fields=sheets.properties(title,gridProperties)');
     const sheets = meta.sheets.map(s=>s.properties);
-    const target = sheets.find(s=>/表單回應|Form Responses/i.test(s.title)) || sheets.sort((a,b)=>b.gridProperties.columnCount-a.gridProperties.columnCount)[0];
+    const target = sheets.find(s=>/表單回應|Form[ _]?Responses/i.test(s.title)) || sheets.sort((a,b)=>b.gridProperties.columnCount-a.gridProperties.columnCount)[0];
     const v = await api('/values/' + encodeURIComponent("'" + target.title + "'") + '?valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=FORMATTED_STRING');
     const values = v.values || [];
     if (values.length < 2){
