@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>讀者調查儀表板</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style id="dash-style">
+:root{
+  --navy:#002060; --navy-2:#2F5C9E; --navy-3:#8FB6E0; --gold:#C39B2B; --gold-2:#E7D29A;
+  --ink:#1B1B1F; --body:#3A3A40; --muted:#6E6E76; --line:#E3E1DA; --card:#FFFFFF; --bg:#F6F4EE;
+  --good:#2F7D4F; --warn:#B4542C;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;font-size:14px;line-height:1.5}
+header{background:var(--navy);color:#fff;padding:18px 28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+header h1{margin:0;font-size:20px;letter-spacing:.02em}
+header .sub{font-size:12px;opacity:.8;margin-top:2px}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:13px;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:6px;padding:7px 12px;cursor:pointer}
+button.primary{background:var(--gold);border-color:var(--gold);color:#1b1b1f;font-weight:600}
+button:hover{filter:brightness(1.08)}
+.status{white-space:nowrap;font-size:12px;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.15)}
+.status.live{background:#2F7D4F}
+.status.demo{background:#B4542C}
+.filters{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:10px 28px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.filters label{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.filters select{font:inherit;font-size:13px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:#fff}
+.filters .count{margin-left:auto;font-size:13px;color:var(--body)}
+main{padding:20px 28px 60px;max-width:1280px;margin:0 auto}
+.notice{background:#FFF8E6;border:1px solid var(--gold-2);border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--body)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .v{font-size:28px;font-weight:700;color:var(--navy);line-height:1.1}
+.kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
+h2{font-size:17px;margin:30px 0 4px;color:var(--navy);display:flex;align-items:baseline;gap:10px}
+h2 small{font-size:12px;color:var(--muted);font-weight:400}
+.lead{color:var(--body);font-size:13px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px 12px}
+.card.wide{grid-column:1/-1}
+.card h3{margin:0;font-size:14px;color:var(--ink)}
+.card .base{font-size:11px;color:var(--muted);margin:2px 0 10px}
+.bar{display:grid;grid-template-columns:minmax(120px,38%) 1fr 64px;gap:8px;align-items:center;margin:5px 0;font-size:12.5px}
+.bar .lab{color:var(--body);overflow:hidden;text-overflow:ellipsis}
+.bar .track{background:#EFEDE6;border-radius:4px;height:14px;overflow:hidden;display:flex}
+.bar .fill{height:100%;background:var(--navy-2)}
+.bar .fill.top{background:var(--navy)}
+.bar .num{text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
+.bar .num small{color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--muted);margin:2px 0 8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.seg{height:100%}
+.empty{color:var(--muted);font-size:12px;padding:8px 0}
+.quotes{max-height:320px;overflow:auto;font-size:13px;color:var(--body)}
+.quotes p{margin:0;padding:7px 0;border-bottom:1px dashed var(--line)}
+.leads{display:flex;gap:24px;flex-wrap:wrap}
+.leads div{font-size:13px;color:var(--body)}
+.leads b{font-size:22px;color:var(--navy);display:block}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:20px}
+@media print{.filters,.actions{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>遠見讀者調查 2026｜儀表板</h1>
+    <div class="sub" id="meta">尚未載入資料</div>
+  </div>
+  <div class="actions no-snapshot">
+    <span class="status demo" id="status">模擬資料</span>
+    <button class="primary" id="btnLogin">登入 Google 並載入即時資料</button>
+    <button id="btnRefresh" disabled>重新整理</button>
+    <button id="btnDemo">切換模擬資料</button>
+    <button id="btnSnap">匯出快照</button>
+  </div>
+</header>
+
+<div class="filters no-snapshot" id="filters">
+  <label>身分 <select id="fSeg"></select></label>
+  <label>年齡 <select id="fAge"></select></label>
+  <label>職位 <select id="fRole"></select></label>
+  <label>管道 <select id="fSrc"></select></label>
+  <span class="count" id="fCount"></span>
+</div>
+
+<main id="report">
+  <div class="notice" id="notice"></div>
+  <div class="kpis" id="kpis"></div>
+
+  <h2>回收進度 <small>各身分、各管道的回收數</small></h2>
+  <div class="grid">
+    <div class="card" id="cSeg"></div>
+    <div class="card" id="cSrc"></div>
+    <div class="card wide" id="cDay"></div>
+  </div>
+
+  <h2>合作需求 <small>主軸三 協作共生｜主軸四 價值延伸</small></h2>
+  <p class="lead">哪些合作產品值得做、對誰做、為什麼要透過遠見買。</p>
+  <div class="grid">
+    <div class="card wide" id="cD1"></div>
+    <div class="card" id="cD2"></div>
+    <div class="card" id="cD3"></div>
+    <div class="card wide" id="cD4"></div>
+    <div class="card" id="cD5"></div>
+    <div class="card" id="cD6"></div>
+    <div class="card" id="cD7"></div>
+  </div>
+
+  <h2>訂戶經營 <small>主軸一 守住基底｜主軸二 會員經營（僅訂戶）</small></h2>
+  <div class="grid">
+    <div class="card" id="cC4"></div>
+    <div class="card" id="cC6"></div>
+    <div class="card" id="cC5"></div>
+    <div class="card" id="cC1"></div>
+    <div class="card wide" id="cC2"></div>
+    <div class="card" id="cC3"></div>
+    <div class="card" id="cC7"></div>
+    <div class="card" id="cS2"></div>
+    <div class="card" id="cS3"></div>
+  </div>
+
+  <h2>非訂戶轉換 <small>曾訂戶與會員</small></h2>
+  <div class="grid">
+    <div class="card wide" id="cE1"></div>
+    <div class="card" id="cE2"></div>
+    <div class="card" id="cE3"></div>
+    <div class="card" id="cE4"></div>
+  </div>
+
+  <h2>讀者輪廓與溝通 <small>生活、主題偏好、管道與基本資料</small></h2>
+  <div class="grid">
+    <div class="card" id="cA1"></div>
+    <div class="card" id="cA2"></div>
+    <div class="card" id="cB1"></div>
+    <div class="card" id="cB2"></div>
+    <div class="card" id="cB3"></div>
+    <div class="card" id="cB4"></div>
+    <div class="card" id="cA3"></div>
+    <div class="card" id="cF2"></div>
+    <div class="card" id="cF5"></div>
+    <div class="card" id="cF4"></div>
+    <div class="card" id="cF3"></div>
+    <div class="card" id="cF7"></div>
+    <div class="card" id="cF8"></div>
+    <div class="card" id="cF1"></div>
+  </div>
+
+  <h2>後續名單 <small>只顯示人數；聯絡資料請到回覆試算表篩選</small></h2>
+  <div class="grid">
+    <div class="card wide" id="cLeads"></div>
+  </div>
+
+  <div class="no-snapshot">
+    <h2>開放題 <small>快照不會匯出這一段</small></h2>
+    <div class="grid">
+      <div class="card" id="cD8"></div>
+      <div class="card" id="cG3"></div>
+    </div>
+  </div>
+</main>
+<footer id="foot">資料來源：遠見讀者調查 2026 回覆試算表（Google 表單）</footer>
+
+<script>
+/* ================= 設定 ================= */
+const CONFIG = {
+  CLIENT_ID: '188803912610-3poiq91knstb1ddtnmi76l74g1c7qpnd.apps.googleusercontent.com',
+  SCOPE: 'https://www.googleapis.com/auth/spreadsheets.readonly',
+  SHEET_ID: '1TfqSfzb17spL4cTEw7X_Kx3LSZWrV5x6msZJ4udYFSA'
+};
+
+/* ================= 題目定義（與表單一致） ================= */
+const Q = {
+  S1:{t:'single',n:'與遠見的關係',o:['目前是遠見訂戶','以前訂過，目前沒有訂閱','遠見官網或線上讀會員，從未訂閱','以上皆非']},
+  S2:{t:'single',n:'訂閱形式',o:['紙本雜誌','遠見線上讀（數位）','紙本＋數位雙享','不清楚']},
+  S3:{t:'single',n:'訂閱年資',o:['未滿 1 年','1–3 年','3–5 年','5 年以上']},
+  S4:{t:'single',n:'由誰付費',o:['自己付費','公司或機關提供','親友贈送','合作夥伴贈送（如銀行、航空）']},
+  C1:{t:'multi',n:'訂閱主要原因（至多 2 項）',o:['掌握趨勢與觀點','工作需要','長期閱讀習慣','價格優惠','贈品吸引','公司或他人提供']},
+  C2:{t:'grid',n:'訂戶權益使用情形',r:['遠見線上讀文章（紙本訂戶每月 4 篇／線上讀訂戶無限暢讀）','生日禮遠見購物金 $100','遠見主辦活動或講座優先、免費報名','自動續訂優惠','遠見主題知識包下載','專屬電子報（國際、金融、科技趨勢報）'],o:['用過','知道但沒用過','不知道']},
+  C3:{t:'grid',n:'整體滿意度（延續 2023 量表）',r:['紙本雜誌','遠見線上讀'],o:['很不滿意','不太滿意','還算滿意','很滿意','沒有使用']},
+  C4:{t:'single',n:'到期續訂可能性',o:['一定會','可能會','還沒想好','可能不會','一定不會']},
+  C5:{t:'multi',n:'影響續訂最重要的因素（至多 2 項）',o:['價格','內容品質','數位閱讀方便','贈品','專屬活動或課程','合作夥伴優惠','自動續訂便利']},
+  C6:{t:'single',n:'推薦親友訂閱（延續 2023 量表）',o:['一定不會','可能不會','可能會','一定會']},
+  C7:{t:'single',n:'自動續訂（信用卡定期扣款）接受度',o:['願意','到期前提醒我再決定','不願意']},
+  E1:{t:'grid',n:'會員權益使用情形',r:['每月 4 篇遠見線上讀文章','生日禮遠見購物金 $100','遠見主題知識包下載','專屬電子報（國際、金融、科技趨勢報）'],o:['用過','知道但沒用過','不知道']},
+  E2:{t:'multi',n:'沒有訂閱的主要原因（至多 2 項）',o:['價格','沒時間看','免費內容已足夠','不清楚訂閱有哪些權益','偏好單期購買','已訂其他媒體','公司提供的訂閱已到期']},
+  E3:{t:'multi',n:'會考慮訂閱的方案（至多 2 項）',o:['短期試讀','數位月訂（可隨時取消）','訂閱搭配合作夥伴產品','實用贈品','價格優惠','只看特定主題的方案']},
+  E4:{t:'single',n:'可接受的年訂閱價格',o:['1,000 元以下','1,000–1,999 元','2,000–2,999 元','3,000–3,999 元','4,000 元以上']},
+  A1:{t:'multi',n:'過去一年花最多錢或時間的領域（至多 3 項）',o:['國內旅遊','海外旅遊','進修學習','投資理財','健康運動','美食餐飲','藝文展演','親子教育','居家生活','3C 科技','公益參與']},
+  A2:{t:'multi',n:'最關注的人生課題（至多 2 項）',o:['升遷與管理','職涯轉換','創業經營','子女教育','退休規劃','財富累積','健康管理','照顧長輩']},
+  A3:{t:'single',n:'過去一年出國次數',o:['0 次','1 次','2–3 次','4 次以上']},
+  B1:{t:'multi',n:'最想收到的主題（LINE 分眾，至多 2 項）',o:['工作與 AI','投資理財','經營管理','教育與親子','國際與兩岸','生活風格']},
+  B2:{t:'multi',n:'最常看到遠見的管道（至多 3 項）',o:['紙本雜誌','遠見官網','遠見線上讀','LINE','電子報','Facebook 或 Instagram','YouTube 或 Podcast','新聞平台轉載']},
+  B3:{t:'single',n:'最希望收到優惠資訊的管道',o:['LINE','Email','簡訊','電話','都不希望收到']},
+  B4:{t:'multi',n:'同時閱讀的其他媒體（延續 2023）',o:['經理人月刊','商業周刊','天下雜誌','財訊','今周刊','經濟學人','哈佛商業評論','科學人','國家地理','都沒有'],other:true},
+  D1:{t:'grid',n:'合作產品興趣度',r:['其他雜誌聯訂（如科學人、國家地理）','報紙數位版加值','實用贈品（如行李箱、小家電）','旅遊產品優惠（機票、住宿、套裝行程）','主題深度旅遊（含專家導覽）','線上或實體課程','藝文展演票券','金融服務優惠（如信用卡、證券）','健康檢查或運動課程'],o:['很有興趣','有點興趣','沒興趣']},
+  D2:{t:'multi',n:'吸引訂閱的贈品類型（延續 2023）',o:['雜誌期數','價格優惠折扣','家電用品（電鍋、氣炸鍋、電風扇等）','配件用品（行李箱、背包、名片夾等）','旅遊金或住宿券','課程或講座票券']},
+  D3:{t:'multi',n:'願意透過遠見購買合作產品的原因（至多 2 項）',o:['比自己買便宜','遠見挑選的品質保證','訂戶專屬、外面買不到','一次購足方便','內容相關、有導讀或解說','贈品實用']},
+  D4:{t:'grid',n:'旅遊合作：興趣與每人預算',r:['國內週末小旅行','海外主題深度旅遊','企業參訪或研習團','郵輪假期'],o:['不感興趣','1 萬元以下','1–3 萬','3–5 萬','5–10 萬','10 萬元以上']},
+  D5:{t:'multi',n:'最想學的課程主題（至多 2 項）',o:['AI 與數位工具','投資理財','專業職能（簡報、寫作、行銷）','領導管理','生活風格（美學、健康、旅遊）','親子教育']},
+  D6:{t:'multi',n:'願意用點數兌換遠見',o:['航空里程','信用卡紅利','購物或超商點數','都不會']},
+  D7:{t:'multi',n:'曾透過夥伴會員活動接觸遠見',o:['中華航空','統一證券','中國信託','都沒有'],other:true},
+  D8:{t:'text',n:'最希望遠見合作的品牌或服務'},
+  F1:{t:'single',n:'性別',o:['男','女','不便透露']},
+  F2:{t:'single',n:'年齡',o:['未滿 25 歲','25–34 歲','35–44 歲','45–54 歲','55–64 歲','65 歲以上']},
+  F3:{t:'single',n:'居住地區',o:['北北基','桃竹苗','中彰投','雲嘉南','高屏','宜花東','離島','海外']},
+  F4:{t:'single',n:'職業身分',o:['私部門受雇','公部門或教職','自營或企業主','學生','家管','退休','其他']},
+  F5:{t:'single',n:'職位層級',o:['企業負責人','高階主管','中階主管','基層主管','一般職員']},
+  F6:{t:'single',n:'推薦公司了解企業團體方案',o:['願意，可聯絡我（請於下一頁留下聯絡方式）','公司已有類似資源','不需要']},
+  F7:{t:'single',n:'家庭狀況（選填）',o:['單身','已婚或同居、無子女','有子女（最小未滿 12 歲）','有子女（最小 12 歲以上）']},
+  F8:{t:'single',n:'個人年收入（選填）',o:['60 萬元以下','60–100 萬','100–200 萬','200 萬元以上','不便透露']},
+  G1:{t:'single',n:'願意參加深度訪談',o:['願意','不願意']},
+  G3:{t:'text',n:'其他建議'}
+};
+const SEGS = ['自費訂戶','公司或贈閱訂戶','曾訂戶','會員'];
+const SRC_LABEL = {edm_subscriber:'訂戶 EDM',edm_member:'會員 EDM',newsletter:'電子報',line:'LINE',sms:'簡訊',web:'官網','':'未帶來源'};
+
+/* ================= 解析試算表 ================= */
+function parseSheet(values){
+  const head = values[0].map(h => String(h||'').trim());
+  const col = code => head.findIndex(h => h.startsWith(code + '. '));
+  const gridCol = (code,row) => head.findIndex(h => h.startsWith(code + '. ') && h.endsWith('[' + row + ']'));
+  const tsCol = head.findIndex(h => /時間戳記|Timestamp/i.test(h));
+  const srcCol = head.findIndex(h => h.startsWith('來源'));
+  const out = [];
+  for (const row of values.slice(1)){
+    if (!row || !row.length) continue;
+    const r = {ts: tsCol>=0 ? row[tsCol] : '', src: srcCol>=0 ? String(row[srcCol]||'') : ''};
+    for (const [code,q] of Object.entries(Q)){
+      if (q.t==='grid'){
+        r[code] = {};
+        q.r.forEach(rowName => { const i = gridCol(code,rowName); if (i>=0 && row[i]!=='' && row[i]!=null) r[code][rowName] = String(row[i]); });
+      } else {
+        const i = col(code); const v = i>=0 ? row[i] : '';
+        if (v==='' || v==null){ r[code] = q.t==='multi' ? [] : ''; continue; }
+        if (q.t==='multi'){
+          const s = String(v); const picked = q.o.filter(o => s.includes(o));
+          let rest = s; picked.forEach(o => rest = rest.split(o).join(''));
+          if (rest.replace(/[,\s、]/g,'').length) picked.push('其他');
+          r[code] = picked;
+        } else r[code] = String(v);
+      }
+    }
+    out.push(r);
+  }
+  return out;
+}
+function segOf(r){
+  if (r.S1==='目前是遠見訂戶') return r.S4==='自己付費' ? '自費訂戶' : '公司或贈閱訂戶';
+  if (r.S1==='以前訂過，目前沒有訂閱') return '曾訂戶';
+  if (r.S1==='遠見官網或線上讀會員，從未訂閱') return '會員';
+  return null;
+}
+
+/* ================= 模擬資料 ================= */
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function makeDemo(n=620){
+  const R = mulberry(20261125);
+  const pick = (opts,w) => { const s=w.reduce((a,b)=>a+b,0); let x=R()*s; for(let i=0;i<opts.length;i++){x-=w[i]; if(x<=0) return opts[i];} return opts[opts.length-1]; };
+  const multi = (opts,p,max) => { let a = opts.filter((o,i)=>R()<p[i]); if (!a.length) a=[pick(opts,p)]; if (max) a = a.sort(()=>R()-.5).slice(0,max); return a; };
+  const grid = (q,fn) => { const g={}; q.r.forEach((row,i)=>g[row]=fn(i)); return g; };
+  const rows = [];
+  for (let k=0;k<n;k++){
+    const r = {};
+    const day = Math.floor(Math.pow(R(),2.2)*16);
+    const d = new Date(2026,10,25+day, 8+Math.floor(R()*14), Math.floor(R()*60));
+    r.ts = d.toLocaleString('zh-TW',{hour12:false});
+    r.S1 = pick(Q.S1.o,[55,15,30,0]);
+    const sub = r.S1===Q.S1.o[0];
+    r.F2 = pick(Q.F2.o, sub?[2,8,18,30,27,15]:[6,20,28,24,15,7]);
+    const young = ['未滿 25 歲','25–34 歲','35–44 歲'].includes(r.F2);
+    r.src = sub ? pick(['edm_subscriber','sms','line','web'],[50,20,20,10]) : pick(['edm_member','newsletter','line','web'],[35,30,20,15]);
+    if (sub){
+      r.S2 = pick(Q.S2.o,[55,15,25,5]); r.S3 = pick(Q.S3.o,[15,30,20,35]); r.S4 = pick(Q.S4.o,[60,28,7,5]);
+      r.C1 = multi(Q.C1.o,[.55,.35,.4,.15,.1,.2],2);
+      r.C2 = grid(Q.C2,i=>pick(Q.C2.o,[[45,35,20],[30,35,35],[18,40,42],[12,30,58],[15,30,55],[35,35,30]][i]));
+      r.C3 = grid(Q.C3,i=>pick(Q.C3.o,i===0?[3,10,52,30,5]:[3,8,30,17,42]));
+      r.C4 = pick(Q.C4.o, r.S4==='自己付費'?[30,35,22,9,4]:[8,20,37,22,13]);
+      r.C5 = multi(Q.C5.o,[.45,.55,.2,.12,.1,.08,.1],2);
+      r.C6 = pick(Q.C6.o,[4,14,55,27]); r.C7 = pick(Q.C7.o,[28,55,17]);
+      r.E1 = {}; r.E2=[]; r.E3=[]; r.E4='';
+    } else {
+      r.S2=r.S3=r.S4=''; r.C1=[]; r.C2={}; r.C3={}; r.C4=r.C6=r.C7=''; r.C5=[];
+      r.E1 = grid(Q.E1,i=>pick(Q.E1.o,[[40,35,25],[20,30,50],[12,30,58],[30,30,40]][i]));
+      r.E2 = multi(Q.E2.o, r.S1===Q.S1.o[1]?[.45,.35,.2,.08,.1,.12,.18]:[.35,.3,.4,.25,.12,.1,.02],2);
+      r.E3 = multi(Q.E3.o,[.4,.3,.18,.15,.35,.15],2);
+      r.E4 = pick(Q.E4.o,[30,38,20,8,4]);
+    }
+    r.A1 = multi(Q.A1.o,[.35,.4,.38,.42,.35,.3,.18,young?.3:.12,.15,.12,.05],3);
+    r.A2 = multi(Q.A2.o,[young?.4:.15,young?.25:.06,.12,young?.3:.08,young?.1:.45,.35,.3,.12],2);
+    r.A3 = pick(Q.A3.o,[25,35,30,10]);
+    r.B1 = multi(Q.B1.o,[young?.55:.3,.45,.35,young?.3:.1,.35,.2],2);
+    r.B2 = multi(Q.B2.o,[sub?.7:.15,.4,sub?.35:.25,.25,.35,.25,.12,.18],3);
+    r.B3 = pick(Q.B3.o,[young?40:28,42,10,3,8]);
+    r.B4 = multi(Q.B4.o,[.12,.35,.4,.12,.25,.08,.15,.08,.1,.15]);
+    r.D1 = grid(Q.D1,i=>pick(Q.D1.o,[[22,40,38],[12,33,55],[26,40,34],[30,40,30],[young?28:20,40,35],[young?35:22,40,30],[18,40,42],[14,34,52],[18,38,44]][i]));
+    r.D2 = multi(Q.D2.o,[.3,.5,.22,.28,.3,.2]);
+    r.D3 = multi(Q.D3.o,[.45,.4,.25,.15,.25,.12],2);
+    r.D4 = grid(Q.D4,i=>pick(Q.D4.o,[[25,40,28,5,2,0],[35,3,15,25,17,5],[50,8,20,14,6,2],[60,2,8,14,11,5]][i]));
+    r.D5 = multi(Q.D5.o,[young?.55:.38,.42,.22,.25,.28,young?.2:.06],2);
+    r.D6 = multi(Q.D6.o,[.25,.38,.3,.25]);
+    r.D7 = multi(Q.D7.o,[.04,.02,.03,.9]);
+    r.D8 = R()<.25 ? pick(['旅行社的深度導覽行程','銀行信用卡點數兌換','書店聯名','線上課程平台','健康檢查套組','美術館展覽門票'],[3,3,2,3,1,2]) : '';
+    r.F1 = pick(Q.F1.o,[50,46,4]); r.F3 = pick(Q.F3.o,[48,15,14,9,10,2,0,2]);
+    r.F4 = pick(Q.F4.o, young?[62,15,15,4,2,0,2]:[42,15,20,1,5,15,2]);
+    r.F5 = ['私部門受雇','公部門或教職','自營或企業主'].includes(r.F4) ? pick(Q.F5.o,[8,14,24,16,38]) : '';
+    r.F6 = r.F5 ? pick(Q.F6.o,[12,30,58]) : '';
+    r.F7 = R()<.85 ? pick(Q.F7.o,[22,18,25,35]) : '';
+    r.F8 = R()<.8 ? pick(Q.F8.o,[22,30,22,8,18]) : '';
+    r.G1 = R()<.7 ? pick(Q.G1.o,[18,82]) : '';
+    r.G3 = R()<.12 ? pick(['希望數位版更好讀','贈品可以更實用','希望有更多活動','價格可以更彈性','內容很棒，繼續加油'],[2,2,2,1,3]) : '';
+    rows.push(r);
+  }
+  return rows;
+}
+
+/* ================= 狀態與篩選 ================= */
+let DATA = [], MODE = 'demo', TOKEN = null, LAST = null;
+const $ = id => document.getElementById(id);
+function fillSelect(id, label, opts){
+  $(id).innerHTML = `<option value="">全部</option>` + opts.map(o=>`<option>${o}</option>`).join('');
+}
+fillSelect('fSeg','身分',SEGS);
+fillSelect('fAge','年齡',Q.F2.o);
+fillSelect('fRole','職位',Q.F5.o);
+['fSeg','fAge','fRole','fSrc'].forEach(id => $(id).addEventListener('change', render));
+
+function filtered(){
+  const s=$('fSeg').value, a=$('fAge').value, ro=$('fRole').value, sr=$('fSrc').value;
+  return DATA.filter(r => r.seg && (!s||r.seg===s) && (!a||r.F2===a) && (!ro||r.F5===ro) && (!sr||SRC_LABEL[r.src]===sr||r.src===sr));
+}
+function setData(rows, mode){
+  DATA = rows.map(r => ({...r, seg: segOf(r)}));
+  MODE = mode; LAST = new Date();
+  const srcs = [...new Set(DATA.map(r=>SRC_LABEL[r.src] || r.src || '未帶來源'))];
+  const cur = $('fSrc').value; fillSelect('fSrc','管道',srcs); $('fSrc').value = srcs.includes(cur)?cur:'';
+  $('status').textContent = mode==='live' ? '即時資料' : '模擬資料';
+  $('status').className = 'status ' + (mode==='live'?'live':'demo');
+  $('notice').style.display = mode==='live' ? 'none' : 'block';
+  $('notice').innerHTML = mode==='live' ? '' :
+    '目前顯示的是<b>模擬資料</b>（620 筆），僅供確認版面。正式回覆進來後，按「登入 Google 並載入即時資料」即可切換。';
+  render();
+}
+
+/* ================= 繪圖 ================= */
+const pct = (a,b) => b ? a/b*100 : 0;
+const fmt = x => (Math.round(x*10)/10).toFixed(x>=10?0:1) + '%';
+function card(id, title, base, body){ $(id).innerHTML = `<h3>${title}</h3><div class="base">${base}</div>${body}`; }
+function bars(items, n){
+  if (!n) return '<div class="empty">此篩選條件下沒有回覆</div>';
+  const max = Math.max(...items.map(i=>i.c), 1);
+  return items.map((i,k)=>`<div class="bar"><span class="lab" title="${i.l}">${i.l}</span>
+    <span class="track"><span class="fill${k===0?' top':''}" style="width:${i.c/max*100}%"></span></span>
+    <span class="num">${fmt(pct(i.c,n))} <small>${i.c}</small></span></div>`).join('');
+}
+function countOpts(rows, code, sort=true){
+  const q = Q[code]; const opts = [...q.o]; if (q.other) opts.push('其他');
+  const items = opts.map(o => ({l:o, c: rows.filter(r => q.t==='multi' ? (r[code]||[]).includes(o) : r[code]===o).length}));
+  return sort ? items.filter(i=>i.c>0||!q.other).sort((a,b)=>b.c-a.c) : items;
+}
+function answered(rows, code){ return rows.filter(r => Q[code].t==='multi' ? (r[code]||[]).length : r[code]); }
+function optCard(id, rows, code, sort=true, who=''){
+  const base = answered(rows, code);
+  card(id, `${code}｜${Q[code].n}`, `n = ${base.length}${who}${Q[code].t==='multi'?'｜百分比＝勾選人數 ÷ 回答人數':''}`, bars(countOpts(base, code, sort), base.length));
+}
+const PAL = {
+  3:['#002060','#8FB6E0','#E3E1DA'],
+  5:['#B4542C','#E2A383','#8FB6E0','#002060','#E3E1DA'],
+  6:['#E3E1DA','#CFE0F2','#8FB6E0','#2F5C9E','#002060','#C39B2B']
+};
+function stacked(rows, code, sortBy, numFn){
+  const q = Q[code]; const cols = q.o; const colors = PAL[cols.length] || PAL[3];
+  const data = q.r.map(row => {
+    const base = rows.filter(r => r[code] && r[code][row]);
+    const segs = cols.map(c => ({c, n: base.filter(r=>r[code][row]===c).length}));
+    return {row, n: base.length, segs};
+  });
+  if (sortBy!=null) data.sort((a,b)=>pct(b.segs[sortBy].n,b.n)-pct(a.segs[sortBy].n,a.n));
+  const legend = `<div class="legend">${cols.map((c,i)=>`<span><i style="background:${colors[i]}"></i>${c}</span>`).join('')}</div>`;
+  const body = data.map(d => `<div class="bar"><span class="lab" title="${d.row}">${d.row}</span>
+    <span class="track">${d.segs.map((s,i)=>`<span class="seg" title="${s.c} ${fmt(pct(s.n,d.n))}" style="width:${pct(s.n,d.n)}%;background:${colors[i]}"></span>`).join('')}</span>
+    <span class="num">${d.n?fmt(numFn?numFn(d):pct(d.segs[sortBy??0].n,d.n)):'—'}</span></div>`).join('');
+  const n = Math.max(0,...data.map(d=>d.n));
+  return {html: n ? legend + body : '<div class="empty">此篩選條件下沒有回覆</div>', n};
+}
+function gridCard(id, rows, code, sortBy, note, who='', numFn){
+  const s = stacked(rows, code, sortBy, numFn);
+  card(id, `${code}｜${Q[code].n}`, `n = ${s.n}${who}${note?'｜'+note:''}`, s.html);
+}
+function texts(id, rows, code){
+  const t = rows.map(r=>r[code]).filter(Boolean);
+  card(id, `${code}｜${Q[code].n}`, `${t.length} 則`, t.length ? `<div class="quotes">${t.slice(-60).reverse().map(x=>`<p>${escapeHtml(x)}</p>`).join('')}</div>` : '<div class="empty">尚無回覆</div>');
+}
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function render(){
+  const rows = filtered();
+  const subs = rows.filter(r => r.seg==='自費訂戶'||r.seg==='公司或贈閱訂戶');
+  const non = rows.filter(r => r.seg==='曾訂戶'||r.seg==='會員');
+  $('fCount').textContent = `篩選後 ${rows.length} 份／全部 ${DATA.filter(r=>r.seg).length} 份`;
+  $('meta').textContent = `${MODE==='live'?'即時資料':'模擬資料'}｜更新於 ${LAST?LAST.toLocaleString('zh-TW',{hour12:false}):'—'}`;
+
+  // KPI
+  const c4 = subs.filter(r=>r.C4), c6 = subs.filter(r=>r.C6);
+  const renew = pct(c4.filter(r=>r.C4==='一定會'||r.C4==='可能會').length, c4.length);
+  const rec = pct(c6.filter(r=>r.C6==='一定會'||r.C6==='可能會').length, c6.length);
+  const d1 = rows.filter(r=>r.D1 && Object.keys(r.D1).length);
+  const anyHot = pct(d1.filter(r=>Object.values(r.D1).includes('很有興趣')).length, d1.length);
+  $('kpis').innerHTML = [
+    [rows.length,'回收份數（篩選後）'],
+    [subs.length,'訂戶'],
+    [non.length,'曾訂戶＋會員'],
+    [c4.length?fmt(renew):'—','訂戶續訂意願（一定會＋可能會）'],
+    [c6.length?fmt(rec):'—','訂戶推薦意願（一定會＋可能會）'],
+    [d1.length?fmt(anyHot):'—','至少對一項合作產品「很有興趣」']
+  ].map(([v,l])=>`<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+
+  // 回收
+  card('cSeg','身分分布',`n = ${rows.length}`, bars(SEGS.map(s=>({l:s,c:rows.filter(r=>r.seg===s).length})), rows.length));
+  const srcCount = {}; rows.forEach(r=>{const k=SRC_LABEL[r.src]||r.src||'未帶來源'; srcCount[k]=(srcCount[k]||0)+1;});
+  card('cSrc','回收管道',`n = ${rows.length}｜依追蹤連結的來源參數`, bars(Object.entries(srcCount).map(([l,c])=>({l,c})).sort((a,b)=>b.c-a.c), rows.length));
+  const byDay = {}; rows.forEach(r=>{const d=String(r.ts||'').split(/[ T]/)[0]||'未知'; byDay[d]=(byDay[d]||0)+1;});
+  const days = Object.keys(byDay).sort((a,b)=>new Date(a)-new Date(b));
+  card('cDay','每日回收',`共 ${days.length} 天`, bars(days.map(d=>({l:d,c:byDay[d]})), rows.length).replace(/<span class="fill top"/,'<span class="fill"'));
+
+  // 合作需求
+  gridCard('cD1', rows, 'D1', 0, '右側數字＝很有興趣，依此排序');
+  optCard('cD2', rows, 'D2'); optCard('cD3', rows, 'D3');
+  gridCard('cD4', rows, 'D4', null, '右側數字＝有興趣比例；色塊越深預算越高', '', d=>100-pct(d.segs[0].n,d.n));
+  optCard('cD5', rows, 'D5'); optCard('cD6', rows, 'D6'); optCard('cD7', rows, 'D7');
+
+  // 訂戶
+  const w1 = '（訂戶）';
+  optCard('cC4', subs, 'C4', false, w1); optCard('cC6', subs, 'C6', false, w1);
+  optCard('cC5', subs, 'C5', true, w1); optCard('cC1', subs, 'C1', true, w1);
+  gridCard('cC2', subs, 'C2', 0, '右側數字＝用過，依此排序', w1);
+  gridCard('cC3', subs, 'C3', null, '右側數字＝滿意度（很滿意＋還算滿意，不含沒有使用）', w1, d=>pct(d.segs[2].n+d.segs[3].n, d.n-d.segs[4].n));
+  optCard('cC7', subs, 'C7', false, w1); optCard('cS2', subs, 'S2', false, w1); optCard('cS3', subs, 'S3', false, w1);
+
+  // 非訂戶
+  const w2 = '（曾訂戶＋會員）';
+  gridCard('cE1', non, 'E1', 0, '右側數字＝用過，依此排序', w2);
+  optCard('cE2', non, 'E2', true, w2); optCard('cE3', non, 'E3', true, w2); optCard('cE4', non, 'E4', false, w2);
+
+  // 輪廓
+  ['A1','A2','B1','B2','B4'].forEach(c=>optCard('c'+c, rows, c));
+  ['B3','A3','F2','F5','F4','F3','F7','F8','F1'].forEach(c=>optCard('c'+c, rows, c, c==='B3'||c==='F4'||c==='F3'));
+
+  // 名單
+  const g1 = rows.filter(r=>r.G1==='願意').length;
+  const f6 = rows.filter(r=>String(r.F6).startsWith('願意')).length;
+  card('cLeads','可跟進的名單人數','', `<div class="leads">
+    <div><b>${g1}</b>願意參加深度訪談（G1）</div>
+    <div><b>${f6}</b>願意推薦公司了解企業團體方案（F6）</div></div>`);
+
+  texts('cD8', rows, 'D8'); texts('cG3', rows, 'G3');
+}
+
+/* ================= Google 登入與讀取 ================= */
+let tokenClient = null;
+function initAuth(){
+  if (!window.google || !google.accounts) return false;
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CONFIG.CLIENT_ID, scope: CONFIG.SCOPE,
+    callback: resp => { if (resp.error){ alert('登入失敗：' + resp.error); return; } TOKEN = resp.access_token; loadLive(); }
+  });
+  return true;
+}
+async function api(path){
+  const res = await fetch('https://sheets.googleapis.com/v4/spreadsheets/' + CONFIG.SHEET_ID + path, {headers:{Authorization:'Bearer ' + TOKEN}});
+  if (!res.ok){ const t = await res.text(); throw new Error(res.status + ' ' + t.slice(0,300)); }
+  return res.json();
+}
+async function loadLive(){
+  try{
+    $('btnLogin').textContent = '載入中…';
+    const meta = await api('?fields=sheets.properties(title,gridProperties)');
+    const sheets = meta.sheets.map(s=>s.properties);
+    const target = sheets.find(s=>/表單回應|Form Responses/i.test(s.title)) || sheets.sort((a,b)=>b.gridProperties.columnCount-a.gridProperties.columnCount)[0];
+    const v = await api('/values/' + encodeURIComponent("'" + target.title + "'") + '?valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=FORMATTED_STRING');
+    const values = v.values || [];
+    if (values.length < 2){
+      setData([], 'live');
+      $('notice').style.display='block';
+      $('notice').innerHTML = `已連上回覆試算表（工作表「${escapeHtml(target.title)}」），目前還沒有回覆。可按「切換模擬資料」先看版面。`;
+    } else setData(parseSheet(values), 'live');
+    $('btnRefresh').disabled = false;
+  } catch(e){
+    console.error(e);
+    alert('讀取失敗：' + e.message + '\n\n請確認：1) 登入的帳號是 OAuth 測試使用者；2) 該帳號有這份回覆試算表的檢視權限；3) 網址是 https://bruno0330.github.io/… 或 http://127.0.0.1:8793');
+  } finally { $('btnLogin').textContent = '登入 Google 並載入即時資料'; }
+}
+$('btnLogin').onclick = () => {
+  if (location.protocol === 'file:'){ alert('請用網址開啟（GitHub Pages 或 http://127.0.0.1:8793），直接開檔案無法登入 Google。'); return; }
+  if (!tokenClient && !initAuth()){ alert('Google 登入元件尚未載入，請稍候再試。'); return; }
+  tokenClient.requestAccessToken({prompt: TOKEN ? '' : 'consent'});
+};
+$('btnRefresh').onclick = () => TOKEN ? loadLive() : $('btnLogin').click();
+$('btnDemo').onclick = () => setData(makeDemo(), 'demo');
+
+/* ================= 匯出快照（不含開放題與任何聯絡資料） ================= */
+$('btnSnap').onclick = () => {
+  const clone = $('report').cloneNode(true);
+  clone.querySelectorAll('.no-snapshot').forEach(e=>e.remove());
+  const n = clone.querySelector('#notice'); if (n && MODE==='live') n.remove();
+  const f = ['fSeg','fAge','fRole','fSrc'].map(id=>$(id)).filter(s=>s.value).map(s=>s.closest('label').firstChild.textContent.trim()+'：'+s.value);
+  const stamp = new Date();
+  const html = `<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>讀者調查快照</title><style>${$('dash-style').textContent}</style></head><body>
+<header><div><h1>遠見讀者調查 2026｜快照</h1><div class="sub">${MODE==='live'?'即時資料':'模擬資料'}｜匯出於 ${stamp.toLocaleString('zh-TW',{hour12:false})}｜篩選：${f.length?f.join('、'):'全部'}</div></div></header>
+<main>${clone.innerHTML}</main><footer>此為靜態快照，不含開放題與聯絡資料。</footer></body></html>`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  a.download = `讀者調查快照_${stamp.getFullYear()}${String(stamp.getMonth()+1).padStart(2,'0')}${String(stamp.getDate()).padStart(2,'0')}.html`;
+  a.click();
+};
+
+setData(makeDemo(), 'demo');
+</script>
+</body>
+</html>
