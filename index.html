@@ -214,7 +214,7 @@ const Q = {
   G1:{t:'single',n:'願意參加深度訪談',o:['願意','不願意']},
   G3:{t:'text',n:'其他建議'}
 };
-const SEGS = ['自費訂戶','公司或贈閱訂戶','曾訂戶','會員'];
+const SEGS = ['自費訂戶','公司或贈閱訂戶','曾訂戶','會員','其他讀者'];
 const SRC_LABEL = {edm_subscriber:'訂戶 EDM',edm_member:'會員 EDM',newsletter:'電子報',line:'LINE',sms:'簡訊',web:'官網','':'未帶來源'};
 
 /* ================= 解析試算表 ================= */
@@ -251,7 +251,7 @@ function segOf(r){
   if (r.S1==='目前是遠見訂戶') return r.S4==='自己付費' ? '自費訂戶' : '公司或贈閱訂戶';
   if (r.S1==='以前訂過，目前沒有訂閱') return '曾訂戶';
   if (r.S1==='遠見官網或線上讀會員，從未訂閱') return '會員';
-  return null;
+  return r.S1 ? '其他讀者' : null;
 }
 
 /* ================= 模擬資料 ================= */
@@ -267,8 +267,8 @@ function makeDemo(n=620){
     const day = Math.floor(Math.pow(R(),2.2)*16);
     const d = new Date(2026,10,25+day, 8+Math.floor(R()*14), Math.floor(R()*60));
     r.ts = d.toLocaleString('zh-TW',{hour12:false});
-    r.S1 = pick(Q.S1.o,[55,15,30,0]);
-    const sub = r.S1===Q.S1.o[0];
+    r.S1 = pick(Q.S1.o,[53,14,28,5]);
+    const sub = r.S1===Q.S1.o[0], other = r.S1===Q.S1.o[3];
     r.F2 = pick(Q.F2.o, sub?[2,8,18,30,27,15]:[6,20,28,24,15,7]);
     const young = ['未滿 25 歲','25–34 歲','35–44 歲'].includes(r.F2);
     r.src = sub ? pick(['edm_subscriber','sms','line','web'],[50,20,20,10]) : pick(['edm_member','newsletter','line','web'],[35,30,20,15]);
@@ -283,10 +283,12 @@ function makeDemo(n=620){
       r.E1 = {}; r.E2=[]; r.E3=[]; r.E4='';
     } else {
       r.S2=r.S3=r.S4=''; r.C1=[]; r.C2={}; r.C3={}; r.C4=r.C6=r.C7=''; r.C5=[];
+      if (other){ r.E1={}; r.E2=[]; r.E3=[]; r.E4=''; } else {
       r.E1 = grid(Q.E1,i=>pick(Q.E1.o,[[40,35,25],[20,30,50],[12,30,58],[30,30,40]][i]));
       r.E2 = multi(Q.E2.o, r.S1===Q.S1.o[1]?[.45,.35,.2,.08,.1,.12,.18]:[.35,.3,.4,.25,.12,.1,.02],2);
       r.E3 = multi(Q.E3.o,[.4,.3,.18,.15,.35,.15],2);
       r.E4 = pick(Q.E4.o,[12,25,25,20,13,5]);
+      }
     }
     r.A1 = multi(Q.A1.o,[.35,.4,.38,.42,.35,.3,.18,young?.3:.12,.15,.12,.05],3);
     r.A2 = multi(Q.A2.o,[young?.4:.15,young?.25:.06,.12,young?.3:.08,young?.1:.45,.35,.3,.12],2);
@@ -412,6 +414,7 @@ function render(){
     [rows.length,'回收份數（篩選後）'],
     [subs.length,'訂戶'],
     [non.length,'曾訂戶＋會員'],
+    [rows.filter(r=>r.seg==='其他讀者').length,'其他讀者（S1 以上皆非）'],
     [c4.length?fmt(renew):'—','訂戶續訂意願（一定會＋可能會）'],
     [c6.length?fmt(rec):'—','訂戶推薦意願（一定會＋可能會）'],
     [d1.length?fmt(anyHot):'—','至少對一項合作產品「很有興趣」']
