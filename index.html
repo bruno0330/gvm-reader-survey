@@ -127,18 +127,15 @@ const Q = {
   S4:{t:'single',n:'由誰付費',o:['自己付費','公司或機關提供','親友贈送','合作夥伴贈送（如銀行、航空）']},
   C1:{t:'multi',n:'訂閱主要原因（至多 2 項）',o:['掌握趨勢與觀點','工作需要','長期閱讀習慣','價格優惠','贈品吸引','公司或他人提供']},
   C2:{t:'grid',n:'訂戶權益使用情形',r:['遠見線上讀文章（紙本訂戶每月 4 篇／線上讀訂戶無限暢讀）','生日禮遠見購物金 $100','遠見主辦活動或講座優先、免費報名','自動續訂優惠','遠見主題知識包下載','專屬電子報（國際、金融、科技趨勢報）'],o:['用過','知道但沒用過','不知道']},
-  C3:{t:'grid',n:'整體滿意度（延續 2023 量表）',r:['紙本雜誌','遠見線上讀'],o:['很不滿意','不太滿意','還算滿意','很滿意','沒有使用']},
   C4:{t:'single',n:'到期續訂可能性',o:['一定會','可能會','還沒想好','可能不會','一定不會']},
   C5:{t:'multi',n:'影響續訂最重要的因素（至多 2 項）',o:['價格','內容品質','數位閱讀方便','贈品','專屬活動或課程','合作夥伴優惠','自動續訂便利']},
   C6:{t:'single',n:'推薦親友訂閱（延續 2023 量表）',o:['一定不會','可能不會','可能會','一定會']},
-  C7:{t:'single',n:'自動續訂（信用卡定期扣款）接受度',o:['願意','到期前提醒我再決定','不願意']},
   E1:{t:'grid',n:'會員權益使用情形',r:['每月 4 篇遠見線上讀文章','生日禮遠見購物金 $100','遠見主題知識包下載','專屬電子報（國際、金融、科技趨勢報）'],o:['用過','知道但沒用過','不知道']},
   E2:{t:'multi',n:'沒有訂閱的主要原因（至多 2 項）',o:['價格','沒時間看','免費內容已足夠','不清楚訂閱有哪些權益','偏好單期購買','已訂其他媒體','公司提供的訂閱已到期']},
   E3:{t:'multi',n:'會考慮訂閱的方案（至多 2 項）',o:['短期試讀','數位月訂（可隨時取消）','訂閱搭配其他刊物（如國家地理雜誌、經濟日報、科學人等）','實用贈品','價格優惠','只看特定主題的方案']},
   E4:{t:'single',n:'依所選方案，一年願意付多少（參考：紙本約 2,080／線上讀約 1,599）',o:['不會付費','1,000 元以下','1,000–1,499 元','1,500–1,999 元','2,000–2,999 元','3,000 元以上']},
   A1:{t:'multi',n:'過去一年花最多錢或時間的領域（至多 3 項）',o:['國內旅遊','海外旅遊','進修學習','投資理財','健康運動','美食餐飲','藝文展演','親子教育','居家生活','3C 科技','公益參與']},
   A2:{t:'multi',n:'最關注的人生課題（至多 2 項）',o:['升遷與管理','職涯轉換','創業經營','子女教育','退休規劃','財富累積','健康管理','照顧長輩']},
-  A3:{t:'single',n:'過去一年出國次數',o:['0 次','1 次','2–3 次','4 次以上']},
   B1:{t:'multi',n:'最想收到的主題（LINE 分眾，至多 2 項）',o:['工作與 AI','投資理財','經營管理','教育與親子','國際與兩岸','生活風格']},
   B2:{t:'multi',n:'最常看到遠見的管道（至多 3 項）',o:['紙本雜誌','遠見官網','遠見線上讀','LINE','電子報','Facebook 或 Instagram','YouTube 或 Podcast','新聞平台轉載']},
   B3:{t:'single',n:'最希望收到優惠資訊的管道',o:['LINE','Email','簡訊','電話','都不希望收到']},
@@ -147,19 +144,15 @@ const Q = {
   D2:{t:'multi',n:'吸引訂閱的贈品類型（延續 2023）',o:['雜誌期數','價格優惠折扣','家電用品（電鍋、氣炸鍋、電風扇等）','配件用品（行李箱、背包、名片夾等）','旅遊金或住宿券','課程或講座票券']},
   D3:{t:'multi',n:'願意透過遠見購買合作產品的原因（至多 2 項）',o:['比自己買便宜','遠見挑選的品質保證','訂戶專屬、外面買不到','一次購足方便','內容相關、有導讀或解說','贈品實用']},
   D4:{t:'grid',n:'旅遊合作：興趣與每人預算',r:['國內週末小旅行','海外主題深度旅遊','企業參訪或研習團','郵輪假期'],o:['不感興趣','1 萬元以下','1–3 萬','3–5 萬','5–10 萬','10 萬元以上']},
+  D9:{t:'multi',n:'夥伴合作興趣（至多 3 項）',o:['航空公司（里程兌換）','銀行信用卡（紅利兌換）','超商或購物平台（點數兌換）','證券或保險','旅行社','書店或出版社','健康或運動品牌','藝文展演','都沒興趣'],other:true},
   D5:{t:'multi',n:'最想學的課程主題（至多 2 項）',o:['AI 與數位工具','投資理財','專業職能（簡報、寫作、行銷）','領導管理','生活風格（美學、健康、旅遊）','親子教育']},
-  D6:{t:'multi',n:'願意用點數兌換遠見',o:['航空里程','信用卡紅利','購物或超商點數','都不會']},
-  D7:{t:'multi',n:'曾透過夥伴會員活動接觸遠見',o:['中華航空','統一證券','中國信託','都沒有'],other:true},
-  D8:{t:'text',n:'最希望遠見合作的品牌或服務'},
   F1:{t:'single',n:'性別',o:['男','女','不便透露']},
   F2:{t:'single',n:'年齡',o:['未滿 25 歲','25–34 歲','35–44 歲','45–54 歲','55–64 歲','65 歲以上']},
   F3:{t:'single',n:'居住地區',o:['北北基','桃竹苗','中彰投','雲嘉南','高屏','宜花東','離島','海外']},
   F4:{t:'single',n:'職業身分',o:['私部門受雇','公部門或教職','自營或企業主','學生','家管','退休','其他']},
   F5:{t:'single',n:'職位層級',o:['企業負責人','高階主管','中階主管','基層主管','一般職員']},
-  F6:{t:'single',n:'推薦公司了解企業團體方案',o:['願意，可聯絡我（請於下一頁留下聯絡方式）','公司已有類似資源','不需要']},
   F7:{t:'single',n:'家庭狀況（選填）',o:['單身','已婚或同居、無子女','有子女（最小未滿 12 歲）','有子女（最小 12 歲以上）']},
   F8:{t:'single',n:'個人年收入（選填）',o:['60 萬元以下','60–100 萬','100–200 萬','200 萬元以上','不便透露']},
-  G1:{t:'single',n:'願意參加深度訪談',o:['願意','不願意']},
   G3:{t:'text',n:'其他建議'}
 };
 const SEGS = ['自費訂戶','公司或贈閱訂戶','曾訂戶','會員','其他讀者'];
@@ -186,11 +179,13 @@ function parseSheet(values){
         if (q.t==='multi'){
           const s = String(v); const picked = q.o.filter(o => s.includes(o));
           let rest = s; picked.forEach(o => rest = rest.split(o).join(''));
-          if (rest.replace(/[,\s、]/g,'').length) picked.push('其他');
+          const left = rest.replace(/^[,\s、]+|[,\s、]+$/g,'').replace(/,\s*,/g,',');
+          if (left.replace(/[,\s、]/g,'').length){ picked.push('其他'); r[code+'_other'] = left; }
           r[code] = picked;
         } else r[code] = String(v);
       }
     }
+    const em = head.findIndex(h => h.startsWith('G2a.')); r.hasContact = em>=0 && String(row[em]||'').trim()!=='';
     out.push(r);
   }
   return out;
@@ -224,13 +219,12 @@ function makeDemo(n=620){
       r.S2 = pick(Q.S2.o,[55,15,25,5]); r.S3 = pick(Q.S3.o,[15,30,20,35]); r.S4 = pick(Q.S4.o,[60,28,7,5]);
       r.C1 = multi(Q.C1.o,[.55,.35,.4,.15,.1,.2],2);
       r.C2 = grid(Q.C2,i=>pick(Q.C2.o,[[45,35,20],[30,35,35],[18,40,42],[12,30,58],[15,30,55],[35,35,30]][i]));
-      r.C3 = grid(Q.C3,i=>pick(Q.C3.o,i===0?[3,10,52,30,5]:[3,8,30,17,42]));
       r.C4 = pick(Q.C4.o, r.S4==='自己付費'?[30,35,22,9,4]:[8,20,37,22,13]);
       r.C5 = multi(Q.C5.o,[.45,.55,.2,.12,.1,.08,.1],2);
-      r.C6 = pick(Q.C6.o,[4,14,55,27]); r.C7 = pick(Q.C7.o,[28,55,17]);
+      r.C6 = pick(Q.C6.o,[4,14,55,27]);
       r.E1 = {}; r.E2=[]; r.E3=[]; r.E4='';
     } else {
-      r.S2=r.S3=r.S4=''; r.C1=[]; r.C2={}; r.C3={}; r.C4=r.C6=r.C7=''; r.C5=[];
+      r.S2=r.S3=r.S4=''; r.C1=[]; r.C2={}; r.C3={}; r.C4=r.C6=''; r.C5=[];
       if (other){ r.E1={}; r.E2=[]; r.E3=[]; r.E4=''; } else {
       r.E1 = grid(Q.E1,i=>pick(Q.E1.o,[[40,35,25],[20,30,50],[12,30,58],[30,30,40]][i]));
       r.E2 = multi(Q.E2.o, r.S1===Q.S1.o[1]?[.45,.35,.2,.08,.1,.12,.18]:[.35,.3,.4,.25,.12,.1,.02],2);
@@ -240,7 +234,6 @@ function makeDemo(n=620){
     }
     r.A1 = multi(Q.A1.o,[.35,.4,.38,.42,.35,.3,.18,young?.3:.12,.15,.12,.05],3);
     r.A2 = multi(Q.A2.o,[young?.4:.15,young?.25:.06,.12,young?.3:.08,young?.1:.45,.35,.3,.12],2);
-    r.A3 = pick(Q.A3.o,[25,35,30,10]);
     r.B1 = multi(Q.B1.o,[young?.55:.3,.45,.35,young?.3:.1,.35,.2],2);
     r.B2 = multi(Q.B2.o,[sub?.7:.15,.4,sub?.35:.25,.25,.35,.25,.12,.18],3);
     r.B3 = pick(Q.B3.o,[young?40:28,42,10,3,8]);
@@ -250,16 +243,13 @@ function makeDemo(n=620){
     r.D3 = multi(Q.D3.o,[.45,.4,.25,.15,.25,.12],2);
     r.D4 = grid(Q.D4,i=>pick(Q.D4.o,[[25,40,28,5,2,0],[35,3,15,25,17,5],[50,8,20,14,6,2],[60,2,8,14,11,5]][i]));
     r.D5 = multi(Q.D5.o,[young?.55:.38,.42,.22,.25,.28,young?.2:.06],2);
-    r.D6 = multi(Q.D6.o,[.25,.38,.3,.25]);
-    r.D7 = multi(Q.D7.o,[.04,.02,.03,.9]);
-    r.D8 = R()<.25 ? pick(['旅行社的深度導覽行程','銀行信用卡點數兌換','書店聯名','線上課程平台','健康檢查套組','美術館展覽門票'],[3,3,2,3,1,2]) : '';
+    r.D9 = multi(Q.D9.o,[.3,.38,.25,.12,.28,.2,.15,.18,.12],3); if (R()<.06){ r.D9=[...r.D9.slice(0,2),'其他']; r.D9_other=pick(['電信公司','咖啡連鎖','高鐵或航空會員'],[1,1,1]); }
+    r.hasContact = R()<.8;
     r.F1 = pick(Q.F1.o,[50,46,4]); r.F3 = pick(Q.F3.o,[48,15,14,9,10,2,0,2]);
     r.F4 = pick(Q.F4.o, young?[62,15,15,4,2,0,2]:[42,15,20,1,5,15,2]);
     r.F5 = ['私部門受雇','公部門或教職','自營或企業主'].includes(r.F4) ? pick(Q.F5.o,[8,14,24,16,38]) : '';
-    r.F6 = r.F5 ? pick(Q.F6.o,[12,30,58]) : '';
     r.F7 = R()<.85 ? pick(Q.F7.o,[22,18,25,35]) : '';
     r.F8 = R()<.8 ? pick(Q.F8.o,[22,30,22,8,18]) : '';
-    r.G1 = R()<.7 ? pick(Q.G1.o,[18,82]) : '';
     r.G3 = R()<.12 ? pick(['希望數位版更好讀','贈品可以更實用','希望有更多活動','價格可以更彈性','內容很棒，繼續加油'],[2,2,2,1,3]) : '';
     rows.push(r);
   }
@@ -318,8 +308,8 @@ function insightOpt(rows, code, st, ordered){
     const top=[...st.items].sort((a,b)=>b.c-a.c)[0];
     return `<div class="insight"><b>重點：</b>最多人選「${esc(top.l)}」（${fmt(top.p)}）。</div>`;
   }
-  const s=[...st.items].filter(i=>i.l!=='都沒有'&&i.l!=='都不會'&&i.l!=='其他').sort((a,b)=>b.c-a.c);
-  const none=st.items.find(i=>(i.l==='都沒有'||i.l==='都不會')&&i.p>=50);
+  const s=[...st.items].filter(i=>!['都沒有','都不會','都沒興趣','其他'].includes(i.l)).sort((a,b)=>b.c-a.c);
+  const none=st.items.find(i=>['都沒有','都不會','都沒興趣'].includes(i.l)&&i.p>=50);
   let txt=(none?`${fmt(none.p)} 選「${none.l}」；其餘之中，`:'')+`最多人選「${esc(s[0].l)}」（${fmt(s[0].p)}）`+(s[1]?`，其次是「${esc(s[1].l)}」（${fmt(s[1].p)}）`:'')+'。';
   if(!SEG){ let gap=null, segs=SEGS;
     for(const it of s.slice(0,4)){ const g=segGap(rows,code,it.l,it.p,segs); if(g&&(!gap||Math.abs(g.d)>Math.abs(gap.d))) gap={...g,l:it.l}; }
@@ -401,15 +391,12 @@ function diverging(label, counts, cols, negN, excludeLast){
   return {html:`<div class="drow"><span>${label}</span><div class="dbar">${segs}</div><b>${fmt(pos)}</b></div>`, pos, n};
 }
 function satCard(subs){
-  const c3o=['很不滿意','不太滿意','還算滿意','很滿意','沒有使用'], c6o=['一定不會','可能不會','可能會','一定會'];
-  const cnt=(rows,f,opts)=>opts.map(o=>rows.filter(r=>f(r)===o).length);
-  const a=diverging('紙本雜誌滿意度',cnt(subs,r=>r.C3&&r.C3['紙本雜誌'],c3o),c3o,2,true);
-  const b=diverging('線上讀滿意度',cnt(subs,r=>r.C3&&r.C3['遠見線上讀'],c3o),c3o,2,true);
-  const c=diverging('推薦親友訂閱',cnt(subs,r=>r.C6,c6o),c6o,2,false);
-  const parts=[a,b,c].filter(x=>x.html);
-  const n=Math.max(0,...parts.map(x=>x.n));
-  const ins = n>=MIN_N ? `<div class="insight"><b>重點：</b>用過的訂戶中，紙本滿意 ${fmt(a.pos||0)}、線上讀滿意 ${fmt(b.pos||0)}；${fmt(c.pos||0)} 會推薦親友訂閱。2023 對照值待補。</div>` : (n?`<div class="insight weak">目前只有 ${n} 份回答，樣本太少，先不下結論。</div>`:'');
-  return `<h3>滿意度與推薦 <span class="tag">C3・C6 延續 2023</span></h3><div class="sub">中線左邊為負面、右邊為正面；右側數字＝正面比例（滿意度不含「沒有使用」）｜僅訂戶</div>${ins}${parts.map(x=>x.html).join('')||'<div class="empty">此篩選條件下沒有回答</div>'}<div class="legend"><span><i style="background:#B4542C"></i>很不滿意／一定不會</span><span><i style="background:#E2A383"></i>不太滿意／可能不會</span><span><i style="background:#8FB0DD"></i>還算滿意／可能會</span><span><i style="background:#0B2556"></i>很滿意／一定會</span></div>`;
+  const c6o=['一定不會','可能不會','可能會','一定會'];
+  const c=diverging('推薦親友訂閱',c6o.map(o=>subs.filter(r=>r.C6===o).length),c6o,2,false);
+  const n=c.n||0;
+  const ins = n>=MIN_N ? `<div class="insight"><b>重點：</b>${fmt(c.pos)} 的訂戶會推薦親友訂閱（一定會＋可能會）。2023 對照值待補。</div>` : (n?`<div class="insight weak">目前只有 ${n} 份回答，樣本太少，先不下結論。</div>`:'');
+  const seg = SUB_SEGS.map(sg=>{ const r=subs.filter(x=>x.seg===sg); const d=diverging(sg,c6o.map(o=>r.filter(x=>x.C6===o).length),c6o,2,false); return r.length>=MIN_N?d.html:''; }).join('');
+  return `<h3>推薦親友訂閱 <span class="tag">C6 延續 2023</span></h3><div class="sub">中線左邊為負面、右邊為正面；右側數字＝一定會＋可能會｜僅訂戶</div>${ins}${c.html||'<div class="empty">此篩選條件下沒有回答</div>'}${seg}<div class="legend"><span><i style="background:#B4542C"></i>一定不會</span><span><i style="background:#E2A383"></i>可能不會</span><span><i style="background:#8FB0DD"></i>可能會</span><span><i style="background:#0B2556"></i>一定會</span></div>`;
 }
 function texts(rows, code){ const t=rows.map(r=>r[code]).filter(Boolean);
   return `<div class="card">${head(code,`${t.length} 則（最新在前）`)}${t.length?`<div class="quotes">${t.slice(-80).reverse().map(x=>`<p>${esc(x)}</p>`).join('')}</div>`:'<div class="empty">尚無回覆</div>'}</div>`; }
@@ -444,14 +431,14 @@ function render(){
   // 合作需求
   $('pGrid').innerHTML = `<div class="card wide">${heatmap(base)}</div>` +
     cardGrid(rows,'D4',{val:(c,n)=>100-pct(c[0],n),valName:'有興趣比例',note:'色塊越深預算越高'}) +
-    cardOpt(rows,'D3') + cardOpt(rows,'D2') + cardOpt(rows,'D5') + cardOpt(rows,'D6') + cardOpt(rows,'D7');
+    cardOpt(rows,'D3') + cardOpt(rows,'D2') + cardOpt(rows,'D5') + cardOpt(rows,'D9');
 
   // 訂戶經營
   const w1='（訂戶）';
   $('sGrid').innerHTML = cardOpt(subs,'C4',{who:w1,ordered:true}) + cardOpt(subs,'C6',{who:w1,ordered:true}) +
     cardOpt(subs,'C5',{who:w1}) + cardOpt(subs,'C1',{who:w1}) +
     cardGrid(subs,'C2',{who:w1,val:(c,n)=>pct(c[0],n),valName:'用過比例'}) +
-    `<div class="card">${satCard(subs)}</div>` + cardOpt(subs,'C7',{who:w1,ordered:true}) +
+    `<div class="card">${satCard(subs)}</div>` +
     cardOpt(subs,'S4',{who:w1,ordered:true}) + cardOpt(subs,'S2',{who:w1,ordered:true}) + cardOpt(subs,'S3',{who:w1,ordered:true});
 
   // 非訂戶
@@ -461,11 +448,13 @@ function render(){
 
   // 讀者輪廓
   $('rGrid').innerHTML = ['A1','A2','B1','B2','B4'].map(c=>cardOpt(rows,c)).join('') +
-    ['B3','A3','F2','F5','F4','F3','F7','F8','F1'].map(c=>cardOpt(rows,c,{ordered:true})).join('');
+    ['B3','F2','F5','F4','F3','F7','F8','F1'].map(c=>cardOpt(rows,c,{ordered:true})).join('');
 
   // 開放題與名單
-  const g1=rows.filter(r=>r.G1==='願意').length, f6=rows.filter(r=>String(r.F6).startsWith('願意')).length;
-  $('qGrid').innerHTML = `<div class="card wide"><h3>可跟進的名單人數</h3><div class="sub">只顯示人數；聯絡資料請到回覆試算表篩選</div><div class="leads"><div><b>${g1}</b>願意參加深度訪談（G1）</div><div><b>${f6}</b>願意推薦公司了解企業團體方案（F6）</div></div></div>` + texts(rows,'D8') + texts(rows,'G3');
+  const contact=rows.filter(r=>r.hasContact).length;
+  const others=rows.map(r=>r.D9_other).filter(Boolean);
+  $('qGrid').innerHTML = `<div class="card wide"><h3>留下聯絡方式的人數</h3><div class="sub">只顯示人數；需要深度訪談時，可從回覆試算表篩選 Email 另外邀約</div><div class="leads"><div><b>${contact}</b>留下 Email（${fmt(pct(contact,rows.length))}）</div></div></div>` +
+    `<div class="card"><h3>夥伴合作「其他」填答 <span class="tag">D9</span></h3><div class="sub">${others.length} 則（最新在前）</div>${others.length?`<div class="quotes">${others.slice(-80).reverse().map(x=>`<p>${esc(x)}</p>`).join('')}</div>`:'<div class="empty">尚無回覆</div>'}</div>` + texts(rows,'G3');
 }
 
 /* ================= 資料載入 ================= */
