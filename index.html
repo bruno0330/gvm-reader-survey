@@ -4,174 +4,122 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>讀者調查儀表板</title>
+<title>讀者需求儀表板</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style id="dash-style">
-:root{
-  --navy:#002060; --navy-2:#2F5C9E; --navy-3:#8FB6E0; --gold:#C39B2B; --gold-2:#E7D29A;
-  --ink:#1B1B1F; --body:#3A3A40; --muted:#6E6E76; --line:#E3E1DA; --card:#FFFFFF; --bg:#F6F4EE;
-  --good:#2F7D4F; --warn:#B4542C;
-}
+:root{--navy:#0B2556;--navy2:#2F5C9E;--sky:#8FB0DD;--pale:#C9D8EE;--gold:#C39B2B;--goldl:#F3E7C4;--ink:#16181D;--body:#4A4F59;--muted:#7D828C;--line:#E6E3DA;--bg:#F7F5F0;--card:#FFFFFF;--good:#2F7D4F;--bad:#B4542C}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;font-size:14px;line-height:1.5}
-header{background:var(--navy);color:#fff;padding:18px 28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
-header h1{margin:0;font-size:20px;letter-spacing:.02em}
-header .sub{font-size:12px;opacity:.8;margin-top:2px}
-.actions{display:flex;flex-wrap:wrap;gap:8px}
-button{font:inherit;font-size:13px;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:6px;padding:7px 12px;cursor:pointer}
-button.primary{background:var(--gold);border-color:var(--gold);color:#1b1b1f;font-weight:600}
-button:hover{filter:brightness(1.08)}
-.status{white-space:nowrap;font-size:12px;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.15)}
-.status.live{background:#2F7D4F}
-.status.demo{background:#B4542C}
-.filters{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:10px 28px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
-.filters label{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center}
-.filters select{font:inherit;font-size:13px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:#fff}
-.filters .count{margin-left:auto;font-size:13px;color:var(--body)}
-main{padding:20px 28px 60px;max-width:1280px;margin:0 auto}
-.notice{background:#FFF8E6;border:1px solid var(--gold-2);border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--body)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-.kpi .v{font-size:28px;font-weight:700;color:var(--navy);line-height:1.1}
-.kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
-h2{font-size:17px;margin:30px 0 4px;color:var(--navy);display:flex;align-items:baseline;gap:10px}
-h2 small{font-size:12px;color:var(--muted);font-weight:400}
-.lead{color:var(--body);font-size:13px;margin:0 0 12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px 12px}
-.card.wide{grid-column:1/-1}
-.card h3{margin:0;font-size:14px;color:var(--ink)}
-.card .base{font-size:11px;color:var(--muted);margin:2px 0 10px}
-.bar{display:grid;grid-template-columns:minmax(120px,38%) 1fr 64px;gap:8px;align-items:center;margin:5px 0;font-size:12.5px}
-.bar .lab{color:var(--body);overflow:hidden;text-overflow:ellipsis}
-.bar .track{background:#EFEDE6;border-radius:4px;height:14px;overflow:hidden;display:flex}
-.bar .fill{height:100%;background:var(--navy-2)}
-.bar .fill.top{background:var(--navy)}
-.bar .num{text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
-.bar .num small{color:var(--muted)}
-.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--muted);margin:2px 0 8px}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+body{margin:0;background:var(--bg);font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;color:var(--ink);font-size:14px;line-height:1.5}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:18px 40px 0}
+.row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.brand .k{font-size:12px;letter-spacing:.14em;color:var(--gold);font-weight:700}
+.brand h1{margin:2px 0 0;font-size:24px;color:var(--navy)}
+.meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.chip{padding:4px 10px;border-radius:99px;font-weight:600;white-space:nowrap}
+.chip.live{background:#E7F3EC;color:var(--good)}.chip.demo{background:#FBEDE5;color:var(--bad)}
+button{font:inherit;font-size:13px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;color:var(--ink);cursor:pointer}
+button.p{background:var(--navy);color:#fff;border-color:var(--navy)}
+button:disabled{opacity:.45;cursor:default}
+.tabs{display:flex;gap:28px;margin-top:14px;overflow-x:auto}
+.tabs button{border:0;border-radius:0;background:none;padding:10px 0 12px;font-size:14px;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
+.tabs button.on{color:var(--navy);font-weight:700;border-color:var(--gold)}
+.filters{position:sticky;top:0;z-index:5;display:flex;gap:8px;padding:12px 40px;background:#fff;border-bottom:1px solid var(--line);align-items:center;flex-wrap:wrap}
+.filters .lab{font-size:12.5px;color:var(--muted);margin-right:2px}
+.pill{border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:12.5px;color:var(--body);background:#fff}
+.pill.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.filters .sp{flex:1}
+.filters select{font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:99px;padding:5px 10px;background:#fff;color:var(--body)}
+.filters .count{font-size:12.5px;color:var(--body);margin-left:6px}
+main{padding:24px 40px 48px;max-width:1440px;margin:0 auto}
+.notice{background:#FBEDE5;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#6B3A1E}
+.kpis{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.kl{font-size:12.5px;color:var(--muted)}
+.kv{font-size:34px;font-weight:700;color:var(--navy);margin:4px 0 2px;font-variant-numeric:tabular-nums;line-height:1.2}
+.kv small{font-size:15px;color:var(--muted);font-weight:500}
+.ks{font-size:12.5px;color:var(--body)}
+.up{color:var(--good);font-weight:700}.dn{color:var(--bad);font-weight:700}
+.prog{height:8px;background:#EFECE4;border-radius:99px;margin:10px 0 6px;overflow:hidden}.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--navy2),var(--navy))}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.g-main{display:grid;grid-template-columns:1.25fr 1fr;gap:16px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.wide{grid-column:1/-1}
+.card h3{margin:0;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;background:#EEF3FA;color:var(--navy2);font-weight:600}
+.sub{font-size:12px;color:var(--muted);margin:2px 0 12px}
+.insight{background:var(--goldl);border-radius:10px;padding:10px 14px;font-size:13.5px;color:#4A3A0A;margin-bottom:14px;line-height:1.6}
+.insight b{color:#3A2C00}
+.insight.weak{background:#F1EFE9;color:var(--muted)}
+.bar{display:grid;grid-template-columns:minmax(120px,40%) 1fr 70px;gap:10px;align-items:center;margin:7px 0;font-size:12.5px}
+.bar .l{color:var(--body);overflow:hidden;text-overflow:ellipsis}
+.track{background:#EFECE4;border-radius:4px;height:14px;overflow:hidden;display:flex}
+.fill{height:100%;background:var(--sky)}.fill.top{background:var(--navy)}
+.num{text-align:right;font-variant-numeric:tabular-nums}.num small{color:var(--muted);margin-left:3px}
 .seg{height:100%}
-.empty{color:var(--muted);font-size:12px;padding:8px 0}
-.quotes{max-height:320px;overflow:auto;font-size:13px;color:var(--body)}
-.quotes p{margin:0;padding:7px 0;border-bottom:1px dashed var(--line)}
-.leads{display:flex;gap:24px;flex-wrap:wrap}
-.leads div{font-size:13px;color:var(--body)}
-.leads b{font-size:22px;color:var(--navy);display:block}
-footer{color:var(--muted);font-size:12px;text-align:center;padding:20px}
-@media print{.filters,.actions{display:none}}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--muted);margin:4px 0 8px;align-items:center}
+.legend i{display:inline-block;width:12px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+table.hm{border-collapse:separate;border-spacing:4px;width:100%;table-layout:fixed}
+.hm col.lc{width:34%}
+.hm th{font-size:11.5px;color:var(--muted);font-weight:600;text-align:center;padding:2px}
+.hm td{font-size:12.5px;text-align:center;border-radius:6px;padding:8px 4px;font-variant-numeric:tabular-nums}
+.hm td.l{text-align:left;background:none;color:var(--body);padding-left:0;white-space:nowrap}
+.hm td.na{background:#F4F2EC;color:#B5B2A8}
+.drow{display:grid;grid-template-columns:120px 1fr 52px;gap:10px;align-items:center;margin:10px 0;font-size:12.5px}
+.dbar{position:relative;display:flex;height:18px}
+.dbar:after{content:"";position:absolute;left:50%;top:-6px;bottom:-6px;border-left:2px solid var(--ink)}
+.empty{color:var(--muted);font-size:12.5px;padding:8px 0}
+.small{font-size:11.5px;color:var(--muted);margin-top:6px}
+.quotes{max-height:420px;overflow:auto;font-size:13px;color:var(--body)}
+.quotes p{margin:0;padding:8px 0;border-bottom:1px dashed var(--line)}
+.leads{display:flex;gap:32px;flex-wrap:wrap}.leads b{font-size:28px;color:var(--navy);display:block}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:16px}
+[hidden]{display:none!important}
+@media(max-width:1000px){.kpis{grid-template-columns:1fr 1fr}.grid,.g-main{grid-template-columns:1fr}.top,.filters,main{padding-left:16px;padding-right:16px}}
+@media print{.filters,.tabs,.meta button{display:none}}
 </style>
 </head>
 <body>
-<header>
-  <div>
-    <h1>遠見讀者調查 2026｜儀表板</h1>
-    <div class="sub" id="meta">尚未載入資料</div>
-  </div>
-  <div class="actions no-snapshot">
-    <span class="status demo" id="status">模擬資料</span>
-    <button class="primary" id="btnLogin">登入 Google 並載入即時資料</button>
-    <button id="btnRefresh" disabled>重新整理</button>
-    <button id="btnDemo">切換模擬資料</button>
-    <button id="btnSnap">匯出快照</button>
-  </div>
-</header>
-
-<div class="filters no-snapshot" id="filters">
-  <label>身分 <select id="fSeg"></select></label>
-  <label>年齡 <select id="fAge"></select></label>
-  <label>職位 <select id="fRole"></select></label>
-  <label>管道 <select id="fSrc"></select></label>
-  <span class="count" id="fCount"></span>
-</div>
-
-<main id="report">
-  <div class="notice" id="notice"></div>
-  <div class="kpis" id="kpis"></div>
-
-  <h2>回收進度 <small>各身分、各管道的回收數</small></h2>
-  <div class="grid">
-    <div class="card" id="cSeg"></div>
-    <div class="card" id="cSrc"></div>
-    <div class="card wide" id="cDay"></div>
-  </div>
-
-  <h2>合作需求 <small>主軸三 協作共生｜主軸四 價值延伸</small></h2>
-  <p class="lead">哪些合作產品值得做、對誰做、為什麼要透過遠見買。</p>
-  <div class="grid">
-    <div class="card wide" id="cD1"></div>
-    <div class="card" id="cD2"></div>
-    <div class="card" id="cD3"></div>
-    <div class="card wide" id="cD4"></div>
-    <div class="card" id="cD5"></div>
-    <div class="card" id="cD6"></div>
-    <div class="card" id="cD7"></div>
-  </div>
-
-  <h2>訂戶經營 <small>主軸一 守住基底｜主軸二 會員經營（僅訂戶）</small></h2>
-  <div class="grid">
-    <div class="card" id="cC4"></div>
-    <div class="card" id="cC6"></div>
-    <div class="card" id="cC5"></div>
-    <div class="card" id="cC1"></div>
-    <div class="card wide" id="cC2"></div>
-    <div class="card" id="cC3"></div>
-    <div class="card" id="cC7"></div>
-    <div class="card" id="cS2"></div>
-    <div class="card" id="cS3"></div>
-  </div>
-
-  <h2>非訂戶轉換 <small>曾訂戶與會員</small></h2>
-  <div class="grid">
-    <div class="card wide" id="cE1"></div>
-    <div class="card" id="cE2"></div>
-    <div class="card" id="cE3"></div>
-    <div class="card" id="cE4"></div>
-  </div>
-
-  <h2>讀者輪廓與溝通 <small>生活、主題偏好、管道與基本資料</small></h2>
-  <div class="grid">
-    <div class="card" id="cA1"></div>
-    <div class="card" id="cA2"></div>
-    <div class="card" id="cB1"></div>
-    <div class="card" id="cB2"></div>
-    <div class="card" id="cB3"></div>
-    <div class="card" id="cB4"></div>
-    <div class="card" id="cA3"></div>
-    <div class="card" id="cF2"></div>
-    <div class="card" id="cF5"></div>
-    <div class="card" id="cF4"></div>
-    <div class="card" id="cF3"></div>
-    <div class="card" id="cF7"></div>
-    <div class="card" id="cF8"></div>
-    <div class="card" id="cF1"></div>
-  </div>
-
-  <h2>後續名單 <small>只顯示人數；聯絡資料請到回覆試算表篩選</small></h2>
-  <div class="grid">
-    <div class="card wide" id="cLeads"></div>
-  </div>
-
-  <div class="no-snapshot">
-    <h2>開放題 <small>快照不會匯出這一段</small></h2>
-    <div class="grid">
-      <div class="card" id="cD8"></div>
-      <div class="card" id="cG3"></div>
+<div class="top">
+  <div class="row">
+    <div class="brand"><div class="k">遠見行銷部｜讀者調查 2026</div><h1>讀者需求儀表板</h1></div>
+    <div class="meta no-snapshot">
+      <span class="chip demo" id="status">模擬資料</span><span id="updated"></span>
+      <button id="btnRefresh" disabled>重新整理</button>
+      <button id="btnDemo">切換模擬資料</button>
+      <button id="btnSnap">匯出快照</button>
+      <button class="p" id="btnLogin">登入 Google 載入即時資料</button>
     </div>
   </div>
+  <nav class="tabs no-snapshot" id="tabs"></nav>
+</div>
+<div class="filters no-snapshot">
+  <span class="lab">身分</span><span id="segPills"></span>
+  <span class="sp"></span>
+  <select id="fAge"></select><select id="fRole"></select><select id="fSrc"></select>
+  <span class="count" id="fCount"></span>
+</div>
+<main id="report">
+  <div class="notice" id="notice"></div>
+  <section data-tab="overview">
+    <div class="kpis" id="kpis"></div>
+    <div class="g-main">
+      <div class="card" id="oHeat"></div>
+      <div class="stack"><div class="card" id="oDaily"></div><div class="card" id="oSat"></div></div>
+    </div>
+  </section>
+  <section data-tab="partner" hidden><div class="grid" id="pGrid"></div></section>
+  <section data-tab="subs" hidden><div class="grid" id="sGrid"></div></section>
+  <section data-tab="non" hidden><div class="grid" id="nGrid"></div></section>
+  <section data-tab="profile" hidden><div class="grid" id="rGrid"></div></section>
+  <section data-tab="open" hidden class="no-snapshot"><div class="grid" id="qGrid"></div></section>
 </main>
-<footer id="foot">資料來源：遠見讀者調查 2026 回覆試算表（Google 表單）</footer>
-
+<footer>資料來源：遠見讀者調查 2026 回覆試算表（Google 表單）｜重點文字依數據自動產生，樣本少於 30 的群組不做比較</footer>
 <script>
-/* ================= 設定 ================= */
 const CONFIG = {
   CLIENT_ID: '188803912610-3poiq91knstb1ddtnmi76l74g1c7qpnd.apps.googleusercontent.com',
   SCOPE: 'https://www.googleapis.com/auth/spreadsheets.readonly',
   SHEET_ID: '1wsDT9hFs08dWX-y4Gl59DhEDSrGUSt8bBcwjPgEhshQ'
 };
-
-/* ================= 題目定義（與表單一致） ================= */
 const Q = {
   S1:{t:'single',n:'與遠見的關係',o:['目前是遠見訂戶','以前訂過，目前沒有訂閱','遠見官網或線上讀會員，從未訂閱','以上皆非']},
   S2:{t:'single',n:'訂閱形式',o:['紙本雜誌','遠見線上讀（數位）','紙本和線上讀都有訂','不清楚']},
@@ -318,209 +266,256 @@ function makeDemo(n=620){
   return rows;
 }
 
-/* ================= 狀態與篩選 ================= */
-let DATA = [], MODE = 'demo', TOKEN = null, LAST = null;
+
+/* ================= 狀態 ================= */
+let DATA = [], MODE = 'demo', TOKEN = null, LAST = null, TAB = 'overview', SEG = '';
+const TARGET = 600, START = new Date(2026,10,25), END = new Date(2026,11,10);
+const MIN_N = 30;
 const $ = id => document.getElementById(id);
-function fillSelect(id, label, opts){
-  $(id).innerHTML = `<option value="">全部</option>` + opts.map(o=>`<option>${o}</option>`).join('');
-}
-fillSelect('fSeg','身分',SEGS);
-fillSelect('fAge','年齡',Q.F2.o);
-fillSelect('fRole','職位',Q.F5.o);
-['fSeg','fAge','fRole','fSrc'].forEach(id => $(id).addEventListener('change', render));
-
-function filtered(){
-  const s=$('fSeg').value, a=$('fAge').value, ro=$('fRole').value, sr=$('fSrc').value;
-  return DATA.filter(r => r.seg && (!s||r.seg===s) && (!a||r.F2===a) && (!ro||r.F5===ro) && (!sr||SRC_LABEL[r.src]===sr||r.src===sr));
-}
-function setData(rows, mode){
-  DATA = rows.map(r => ({...r, seg: segOf(r)}));
-  MODE = mode; LAST = new Date();
-  const srcs = [...new Set(DATA.map(r=>SRC_LABEL[r.src] || r.src || '未帶來源'))];
-  const cur = $('fSrc').value; fillSelect('fSrc','管道',srcs); $('fSrc').value = srcs.includes(cur)?cur:'';
-  $('status').textContent = mode==='live' ? '即時資料' : '模擬資料';
-  $('status').className = 'status ' + (mode==='live'?'live':'demo');
-  $('notice').style.display = mode==='live' ? 'none' : 'block';
-  $('notice').innerHTML = mode==='live' ? '' :
-    '目前顯示的是<b>模擬資料</b>（620 筆），僅供確認版面。正式回覆進來後，按「登入 Google 並載入即時資料」即可切換。';
-  render();
-}
-
-/* ================= 繪圖 ================= */
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pct = (a,b) => b ? a/b*100 : 0;
-const fmt = x => (Math.round(x*10)/10).toFixed(x>=10?0:1) + '%';
-function card(id, title, base, body){ $(id).innerHTML = `<h3>${title}</h3><div class="base">${base}</div>${body}`; }
-function bars(items, n){
-  if (!n) return '<div class="empty">此篩選條件下沒有回覆</div>';
-  const max = Math.max(...items.map(i=>i.c), 1);
-  return items.map((i,k)=>`<div class="bar"><span class="lab" title="${i.l}">${i.l}</span>
-    <span class="track"><span class="fill${k===0?' top':''}" style="width:${i.c/max*100}%"></span></span>
-    <span class="num">${fmt(pct(i.c,n))} <small>${i.c}</small></span></div>`).join('');
-}
-function countOpts(rows, code, sort=true){
-  const q = Q[code]; const opts = [...q.o]; if (q.other) opts.push('其他');
-  const items = opts.map(o => ({l:o, c: rows.filter(r => q.t==='multi' ? (r[code]||[]).includes(o) : r[code]===o).length}));
-  return sort ? items.filter(i=>i.c>0||!q.other).sort((a,b)=>b.c-a.c) : items;
-}
-function answered(rows, code){ return rows.filter(r => Q[code].t==='multi' ? (r[code]||[]).length : r[code]); }
-function optCard(id, rows, code, sort=true, who=''){
-  const base = answered(rows, code);
-  card(id, `${code}｜${Q[code].n}`, `n = ${base.length}${who}${Q[code].t==='multi'?'｜百分比＝勾選人數 ÷ 回答人數':''}`, bars(countOpts(base, code, sort), base.length));
-}
-const PAL = {
-  3:['#002060','#8FB6E0','#E3E1DA'],
-  5:['#B4542C','#E2A383','#8FB6E0','#002060','#E3E1DA'],
-  6:['#E3E1DA','#CFE0F2','#8FB6E0','#2F5C9E','#002060','#C39B2B']
-};
-function stacked(rows, code, sortBy, numFn){
-  const q = Q[code]; const cols = q.o; const colors = PAL[cols.length] || PAL[3];
-  const data = q.r.map(row => {
-    const base = rows.filter(r => r[code] && r[code][row]);
-    const segs = cols.map(c => ({c, n: base.filter(r=>r[code][row]===c).length}));
-    return {row, n: base.length, segs};
-  });
-  if (sortBy!=null) data.sort((a,b)=>pct(b.segs[sortBy].n,b.n)-pct(a.segs[sortBy].n,a.n));
-  const legend = `<div class="legend">${cols.map((c,i)=>`<span><i style="background:${colors[i]}"></i>${c}</span>`).join('')}</div>`;
-  const body = data.map(d => `<div class="bar"><span class="lab" title="${d.row}">${d.row}</span>
-    <span class="track">${d.segs.map((s,i)=>`<span class="seg" title="${s.c} ${fmt(pct(s.n,d.n))}" style="width:${pct(s.n,d.n)}%;background:${colors[i]}"></span>`).join('')}</span>
-    <span class="num">${d.n?fmt(numFn?numFn(d):pct(d.segs[sortBy??0].n,d.n)):'—'}</span></div>`).join('');
-  const n = Math.max(0,...data.map(d=>d.n));
-  return {html: n ? legend + body : '<div class="empty">此篩選條件下沒有回覆</div>', n};
-}
-function gridCard(id, rows, code, sortBy, note, who='', numFn){
-  const s = stacked(rows, code, sortBy, numFn);
-  card(id, `${code}｜${Q[code].n}`, `n = ${s.n}${who}${note?'｜'+note:''}`, s.html);
-}
-function texts(id, rows, code){
-  const t = rows.map(r=>r[code]).filter(Boolean);
-  card(id, `${code}｜${Q[code].n}`, `${t.length} 則`, t.length ? `<div class="quotes">${t.slice(-60).reverse().map(x=>`<p>${escapeHtml(x)}</p>`).join('')}</div>` : '<div class="empty">尚無回覆</div>');
-}
-function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+const fmt = x => (x>=10 ? Math.round(x) : Math.round(x*10)/10) + '%';
+const SUB_SEGS = ['自費訂戶','公司或贈閱訂戶'], NON_SEGS = ['曾訂戶','會員'];
+const TABS = [['overview','總覽'],['partner','合作需求'],['subs','訂戶經營'],['non','非訂戶轉換'],['profile','讀者輪廓'],['open','開放題']];
 
+/* ================= 篩選 UI ================= */
+$('tabs').innerHTML = TABS.map(([k,l])=>`<button data-k="${k}" class="${k===TAB?'on':''}">${l}</button>`).join('');
+$('tabs').onclick = e => { const k = e.target.dataset.k; if(!k) return; TAB=k;
+  [...$('tabs').children].forEach(b=>b.classList.toggle('on', b.dataset.k===k));
+  document.querySelectorAll('section[data-tab]').forEach(s=>s.hidden = s.dataset.tab!==k); window.scrollTo(0,0); };
+function drawPills(){
+  $('segPills').innerHTML = ['',...SEGS].map(s=>`<button class="pill ${s===SEG?'on':''}" data-s="${s}">${s||'全部'}</button>`).join(' ');
+}
+$('segPills').onclick = e => { if(e.target.dataset.s===undefined) return; SEG = e.target.dataset.s; drawPills(); render(); };
+function fillSelect(id, label, opts){ const cur=$(id).value; $(id).innerHTML = `<option value="">${label}：全部</option>` + opts.map(o=>`<option value="${esc(o)}">${label}：${esc(o)}</option>`).join(''); if(opts.includes(cur)) $(id).value=cur; }
+fillSelect('fAge','年齡',Q.F2.o); fillSelect('fRole','職位',Q.F5.o);
+['fAge','fRole','fSrc'].forEach(id=>$(id).addEventListener('change',render));
+const srcName = r => SRC_LABEL[r.src] || r.src || '未帶來源';
+function baseRows(){ const a=$('fAge').value, ro=$('fRole').value, sr=$('fSrc').value;
+  return DATA.filter(r=>r.seg && (!a||r.F2===a) && (!ro||r.F5===ro) && (!sr||srcName(r)===sr)); }
+const segRows = (rows, s) => rows.filter(r=>r.seg===s);
+
+/* ================= 統計 ================= */
+const answered = (rows, code) => rows.filter(r => Q[code].t==='multi' ? (r[code]||[]).length : (Q[code].t==='grid' ? r[code] && Object.keys(r[code]).length : r[code]));
+function optStats(rows, code){
+  const q=Q[code], base=answered(rows,code), opts=[...q.o]; if(q.other) opts.push('其他');
+  const items = opts.map(o=>{ const c=base.filter(r=>q.t==='multi'?(r[code]||[]).includes(o):r[code]===o).length; return {l:o,c,p:pct(c,base.length)}; });
+  return {n:base.length, items};
+}
+function rowShare(rows, code, row, cols){ const b=rows.filter(r=>r[code]&&r[code][row]); return {n:b.length, c:cols.map(c=>b.filter(r=>r[code][row]===c).length)}; }
+
+/* ================= 自動重點 ================= */
+function segGap(rows, code, opt, overallP, segs){
+  let best=null;
+  for(const s of segs){ const sr=segRows(rows,s); const st=optStats(sr,code); if(st.n<MIN_N) continue;
+    const it=st.items.find(i=>i.l===opt); const d=it.p-overallP; if(!best||Math.abs(d)>Math.abs(best.d)) best={s,d,p:it.p}; }
+  return best && Math.abs(best.d)>=8 ? best : null;
+}
+function insightOpt(rows, code, st, ordered){
+  if(!st.n) return '';
+  if(st.n<MIN_N) return `<div class="insight weak">目前只有 ${st.n} 份回答，樣本太少，先不下結論。</div>`;
+  if(ordered){ // 有順序的單選：講最多的選項與累積
+    const top=[...st.items].sort((a,b)=>b.c-a.c)[0];
+    return `<div class="insight"><b>重點：</b>最多人選「${esc(top.l)}」（${fmt(top.p)}）。</div>`;
+  }
+  const s=[...st.items].filter(i=>i.l!=='都沒有'&&i.l!=='都不會'&&i.l!=='其他').sort((a,b)=>b.c-a.c);
+  const none=st.items.find(i=>(i.l==='都沒有'||i.l==='都不會')&&i.p>=50);
+  let txt=(none?`${fmt(none.p)} 選「${none.l}」；其餘之中，`:'')+`最多人選「${esc(s[0].l)}」（${fmt(s[0].p)}）`+(s[1]?`，其次是「${esc(s[1].l)}」（${fmt(s[1].p)}）`:'')+'。';
+  if(!SEG){ let gap=null, segs=SEGS;
+    for(const it of s.slice(0,4)){ const g=segGap(rows,code,it.l,it.p,segs); if(g&&(!gap||Math.abs(g.d)>Math.abs(gap.d))) gap={...g,l:it.l}; }
+    if(gap) txt+=`「${gap.s}」選「${esc(gap.l)}」的比例${gap.d>0?'比整體高':'比整體低'} ${Math.round(Math.abs(gap.d))} 個百分點（${fmt(gap.p)}）。`;
+  }
+  return `<div class="insight"><b>重點：</b>${txt}</div>`;
+}
+
+/* ================= 元件 ================= */
+function head(code, sub){ return `<h3>${esc(Q[code].n)} <span class="tag">${code}</span></h3><div class="sub">${sub}</div>`; }
+function bars(items, sort){
+  const list = sort ? [...items].sort((a,b)=>b.c-a.c) : items; const max=Math.max(1,...list.map(i=>i.p));
+  const topC = Math.max(...list.map(i=>i.c));
+  return list.map(i=>`<div class="bar"><span class="l" title="${esc(i.l)}">${esc(i.l)}</span><span class="track"><span class="fill ${i.c===topC&&i.c>0?'top':''}" style="width:${i.p/max*100}%"></span></span><span class="num">${fmt(i.p)}<small>${i.c}</small></span></div>`).join('');
+}
+function cardOpt(rows, code, {who='', ordered=false, wide=false}={}){
+  const st=optStats(rows,code);
+  const sub=`n = ${st.n}${who}${Q[code].t==='multi'?'｜百分比＝勾選人數 ÷ 回答人數':''}`;
+  const body = st.n ? insightOpt(rows,code,st,ordered)+bars(st.items,!ordered) : '<div class="empty">此篩選條件下沒有回答</div>';
+  return `<div class="card ${wide?'wide':''}">${head(code,sub)}${body}</div>`;
+}
+const PAL={3:['#0B2556','#8FB0DD','#E6E3DA'],5:['#B4542C','#E2A383','#8FB0DD','#0B2556','#E6E3DA'],6:['#E6E3DA','#C9D8EE','#8FB0DD','#4A79BF','#0B2556','#C39B2B']};
+function cardGrid(rows, code, {who='', val, valName, note=''}={}){
+  const q=Q[code], cols=q.o, colors=PAL[cols.length]||PAL[3];
+  const data=q.r.map(row=>{ const s=rowShare(rows,code,row,cols); return {row, n:s.n, c:s.c, v: s.n? val(s.c,s.n):0}; }).sort((a,b)=>b.v-a.v);
+  const n=Math.max(0,...data.map(d=>d.n));
+  let ins='';
+  if(n>=MIN_N){ const hi=data[0], lo=data[data.length-1];
+    ins=`<div class="insight"><b>重點：</b>「${esc(hi.row)}」${valName}最高（${fmt(hi.v)}）；「${esc(lo.row)}」最低（${fmt(lo.v)}）。</div>`; }
+  else if(n) ins=`<div class="insight weak">目前只有 ${n} 份回答，樣本太少，先不下結論。</div>`;
+  const legend=`<div class="legend">${cols.map((c,i)=>`<span><i style="background:${colors[i]}"></i>${esc(c)}</span>`).join('')}</div>`;
+  const body=data.map(d=>`<div class="bar"><span class="l" title="${esc(d.row)}">${esc(d.row)}</span><span class="track">${d.c.map((x,i)=>`<span class="seg" style="width:${pct(x,d.n)}%;background:${colors[i]}"></span>`).join('')}</span><span class="num">${d.n?fmt(d.v):'—'}</span></div>`).join('');
+  return `<div class="card wide">${head(code,`n = ${n}${who}｜右側數字＝${valName}${note?'｜'+note:''}`)}${n?ins+legend+body:'<div class="empty">此篩選條件下沒有回答</div>'}</div>`;
+}
+function heatmap(rows){
+  const cols=['全部',...SEGS.filter(s=>s!=='其他讀者')];
+  const vals=Q.D1.r.map(row=>{ const cells=cols.map(c=>{ const rs=c==='全部'?rows:segRows(rows,c); const s=rowShare(rs,'D1',row,Q.D1.o); return {n:s.n,p:pct(s.c[0],s.n)}; }); return {row,cells}; })
+    .sort((a,b)=>b.cells[0].p-a.cells[0].p);
+  const all=vals.map(v=>v.cells[0]); const n=Math.max(0,...all.map(c=>c.n));
+  const color=p=>p>=40?['#0B2556','#fff']:p>=30?['#4A79BF','#fff']:p>=22?['#8FB0DD','#16181D']:p>=15?['#C9D8EE','#16181D']:['#F1F4FA','#4A4F59'];
+  let ins='';
+  if(n>=MIN_N){ ins=`最受歡迎的是「${esc(vals[0].row)}」（${fmt(vals[0].cells[0].p)}）`+(vals[1]?`與「${esc(vals[1].row)}」（${fmt(vals[1].cells[0].p)}）`:'')+'。';
+    let best=null; vals.forEach(v=>v.cells.slice(1).forEach((c,i)=>{ if(c.n>=MIN_N){ const d=c.p-v.cells[0].p; if(!best||d>best.d) best={d,row:v.row,seg:cols[i+1],p:c.p}; } }));
+    if(best&&best.d>=8) ins+=`「${best.seg}」對「${esc(best.row)}」的興趣（${fmt(best.p)}）比整體高 ${Math.round(best.d)} 個百分點，可作為這群讀者的切入點。`;
+    ins=`<div class="insight"><b>重點：</b>${ins}</div>`; }
+  else if(n) ins=`<div class="insight weak">目前只有 ${n} 份回答，樣本太少，先不下結論。</div>`;
+  const table=`<table class="hm"><colgroup><col class="lc">${cols.map(()=>'<col>').join('')}</colgroup><tr><th></th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>${vals.map(v=>`<tr><td class="l">${esc(v.row)}</td>${v.cells.map((c,i)=>{ if(c.n<MIN_N&&i>0) return `<td class="na" title="n=${c.n}">${c.n?'n<30':'—'}</td>`; const k=color(c.p); return `<td style="background:${k[0]};color:${k[1]};${i===0?'font-weight:700':''}" title="n=${c.n}">${c.n?fmt(c.p):'—'}</td>`; }).join('')}</tr>`).join('')}</table>`;
+  const legend=`<div class="legend">0%<i style="background:#F1F4FA"></i><i style="background:#C9D8EE"></i><i style="background:#8FB0DD"></i><i style="background:#4A79BF"></i><i style="background:#0B2556"></i>40% 以上｜灰色＝該群回答少於 30 份</div>`;
+  return `<h3>合作產品興趣度 × 身分 <span class="tag">D1</span></h3><div class="sub">格內數字＝「很有興趣」比例；顏色越深越有興趣｜此圖固定顯示所有身分（年齡、職位、管道篩選仍適用）</div>${n?ins+table+legend:'<div class="empty">此篩選條件下沒有回答</div>'}`;
+}
+function dayKey(ts){ const d=new Date(String(ts||'').split(/[ T]/)[0]); return isNaN(d)?null:new Date(d.getFullYear(),d.getMonth(),d.getDate()); }
+function daily(rows){
+  const days=Math.round((END-START)/864e5)+1; const counts=new Array(days).fill(0); let last=null;
+  rows.forEach(r=>{ const d=dayKey(r.ts); if(!d) return; const i=Math.round((d-START)/864e5); if(i>=0&&i<days){counts[i]++; if(!last||d>last) last=d;} });
+  let cum=0; const pts=counts.map(c=>cum+=c); const total=rows.length;
+  const li = last ? Math.round((last-START)/864e5) : -1;
+  const W=520,H=170,x0=34,x1=482,y0=140,y1=20, ymax=Math.max(TARGET, total*1.1);
+  const X=i=>x0+(x1-x0)*i/(days-1), Y=v=>y0-(y0-y1)*v/ymax;
+  const path=li>=0?pts.slice(0,li+1).map((v,i)=>`${i?'L':'M'}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join(' '):'';
+  const area=li>=0?`${path} L${X(li).toFixed(1)} ${y0} L${x0} ${y0}Z`:'';
+  const proj = li>=0 ? Math.round(total + total/(li+1)*(days-1-li)) : 0;
+  const src={}; rows.forEach(r=>{const k=srcName(r); src[k]=(src[k]||0)+1;});
+  const topSrc=Object.entries(src).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,c])=>`${k} ${fmt(pct(c,total))}`).join('、');
+  const ins = total ? `<div class="insight"><b>重點：</b>目前 ${total} 份；照目前速度，12/10 預估約 <b>${proj} 份</b>（目標 ${TARGET}，${proj>=TARGET?'可望達標':'需加強催收'}）。主要來源：${topSrc}。</div>` : '';
+  const svg=`<svg viewBox="0 0 ${W} ${H+16}" width="100%" height="${H+16}"><g font-size="10" fill="#7D828C">
+    <line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}" stroke="#E6E3DA"/><line x1="${x0}" y1="${Y(TARGET)}" x2="${x1}" y2="${Y(TARGET)}" stroke="#F0EDE5"/>
+    <text x="0" y="${y0+3}">0</text><text x="0" y="${Y(TARGET)+3}">${TARGET}</text>
+    <text x="${x0}" y="${y0+16}">11/25</text><text x="${(x0+x1)/2-12}" y="${y0+16}">12/03</text><text x="${x1-30}" y="${y0+16}">12/10</text></g>
+    <line x1="${x0}" y1="${y0}" x2="${x1}" y2="${Y(TARGET)}" stroke="#C39B2B" stroke-dasharray="5 4" stroke-width="1.5"/>
+    ${area?`<path d="${area}" fill="#0B2556" opacity=".07"/><path d="${path}" fill="none" stroke="#0B2556" stroke-width="3"/><circle cx="${X(li)}" cy="${Y(pts[li])}" r="4.5" fill="#0B2556"/><text x="${X(li)+8}" y="${Y(pts[li])-6}" font-size="12" font-weight="700" fill="#0B2556">${pts[li]}</text>`:''}</svg>`;
+  return `<h3>回收進度 <span class="tag">累計</span></h3><div class="sub">深藍＝累計份數；金色虛線＝在 12/10 達到 ${TARGET} 份的節奏</div>${ins}${svg}`;
+}
+function diverging(label, counts, cols, negN, excludeLast){
+  const use = excludeLast ? counts.slice(0,-1) : counts; const n=use.reduce((a,b)=>a+b,0); if(!n) return {html:'',pos:0,n:0};
+  const sh=use.map(c=>c/n*50); const neg=sh.slice(0,negN).reduce((a,b)=>a+b,0);
+  const colors=['#B4542C','#E2A383','#8FB0DD','#0B2556'];
+  const segs=sh.map((w,i)=>`<i style="width:${w}%;background:${colors[i]};${i===0?`margin-left:${50-neg}%`:''}" title="${cols[i]} ${fmt(w*2)}"></i>`).join('');
+  const pos=pct(use.slice(negN).reduce((a,b)=>a+b,0),n);
+  return {html:`<div class="drow"><span>${label}</span><div class="dbar">${segs}</div><b>${fmt(pos)}</b></div>`, pos, n};
+}
+function satCard(subs){
+  const c3o=['很不滿意','不太滿意','還算滿意','很滿意','沒有使用'], c6o=['一定不會','可能不會','可能會','一定會'];
+  const cnt=(rows,f,opts)=>opts.map(o=>rows.filter(r=>f(r)===o).length);
+  const a=diverging('紙本雜誌滿意度',cnt(subs,r=>r.C3&&r.C3['紙本雜誌'],c3o),c3o,2,true);
+  const b=diverging('線上讀滿意度',cnt(subs,r=>r.C3&&r.C3['遠見線上讀'],c3o),c3o,2,true);
+  const c=diverging('推薦親友訂閱',cnt(subs,r=>r.C6,c6o),c6o,2,false);
+  const parts=[a,b,c].filter(x=>x.html);
+  const n=Math.max(0,...parts.map(x=>x.n));
+  const ins = n>=MIN_N ? `<div class="insight"><b>重點：</b>用過的訂戶中，紙本滿意 ${fmt(a.pos||0)}、線上讀滿意 ${fmt(b.pos||0)}；${fmt(c.pos||0)} 會推薦親友訂閱。2023 對照值待補。</div>` : (n?`<div class="insight weak">目前只有 ${n} 份回答，樣本太少，先不下結論。</div>`:'');
+  return `<h3>滿意度與推薦 <span class="tag">C3・C6 延續 2023</span></h3><div class="sub">中線左邊為負面、右邊為正面；右側數字＝正面比例（滿意度不含「沒有使用」）｜僅訂戶</div>${ins}${parts.map(x=>x.html).join('')||'<div class="empty">此篩選條件下沒有回答</div>'}<div class="legend"><span><i style="background:#B4542C"></i>很不滿意／一定不會</span><span><i style="background:#E2A383"></i>不太滿意／可能不會</span><span><i style="background:#8FB0DD"></i>還算滿意／可能會</span><span><i style="background:#0B2556"></i>很滿意／一定會</span></div>`;
+}
+function texts(rows, code){ const t=rows.map(r=>r[code]).filter(Boolean);
+  return `<div class="card">${head(code,`${t.length} 則（最新在前）`)}${t.length?`<div class="quotes">${t.slice(-80).reverse().map(x=>`<p>${esc(x)}</p>`).join('')}</div>`:'<div class="empty">尚無回覆</div>'}</div>`; }
+
+/* ================= 繪製 ================= */
 function render(){
-  const rows = filtered();
-  const subs = rows.filter(r => r.seg==='自費訂戶'||r.seg==='公司或贈閱訂戶');
-  const non = rows.filter(r => r.seg==='曾訂戶'||r.seg==='會員');
-  $('fCount').textContent = `篩選後 ${rows.length} 份／全部 ${DATA.filter(r=>r.seg).length} 份`;
-  $('meta').textContent = `${MODE==='live'?'即時資料':'模擬資料'}｜更新於 ${LAST?LAST.toLocaleString('zh-TW',{hour12:false}):'—'}`;
+  const base=baseRows(), rows=SEG?segRows(base,SEG):base;
+  const subs=rows.filter(r=>SUB_SEGS.includes(r.seg)), non=rows.filter(r=>NON_SEGS.includes(r.seg));
+  $('fCount').textContent=`${rows.length} 份`;
+  $('updated').textContent = LAST ? `更新於 ${LAST.toLocaleString('zh-TW',{hour12:false,month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}` : '';
 
   // KPI
-  const c4 = subs.filter(r=>r.C4), c6 = subs.filter(r=>r.C6);
-  const renew = pct(c4.filter(r=>r.C4==='一定會'||r.C4==='可能會').length, c4.length);
-  const rec = pct(c6.filter(r=>r.C6==='一定會'||r.C6==='可能會').length, c6.length);
-  const d1 = rows.filter(r=>r.D1 && Object.keys(r.D1).length);
-  const anyHot = pct(d1.filter(r=>Object.values(r.D1).includes('很有興趣')).length, d1.length);
-  $('kpis').innerHTML = [
-    [rows.length,'回收份數（篩選後）'],
-    [subs.length,'訂戶'],
-    [non.length,'曾訂戶＋會員'],
-    [rows.filter(r=>r.seg==='其他讀者').length,'其他讀者（S1 以上皆非）'],
-    [c4.length?fmt(renew):'—','訂戶續訂意願（一定會＋可能會）'],
-    [c6.length?fmt(rec):'—','訂戶推薦意願（一定會＋可能會）'],
-    [d1.length?fmt(anyHot):'—','至少對一項合作產品「很有興趣」']
-  ].map(([v,l])=>`<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+  const kSub = s => { const r=segRows(base,s).filter(x=>x.C4); return r.length>=MIN_N?fmt(pct(r.filter(x=>x.C4==='一定會'||x.C4==='可能會').length,r.length)):'n<30'; };
+  const c4=subs.filter(r=>r.C4), c6=subs.filter(r=>r.C6);
+  const renew=pct(c4.filter(r=>r.C4==='一定會'||r.C4==='可能會').length,c4.length);
+  const rec=pct(c6.filter(r=>r.C6==='一定會'||r.C6==='可能會').length,c6.length);
+  const d1=rows.filter(r=>r.D1&&Object.keys(r.D1).length);
+  const hot=pct(d1.filter(r=>Object.values(r.D1).includes('很有興趣')).length,d1.length);
+  const topD1=Q.D1.r.map(row=>({row,p:pct(d1.filter(r=>r.D1[row]==='很有興趣').length,d1.length)})).sort((a,b)=>b.p-a.p)[0];
+  const all=DATA.filter(r=>r.seg).length;
+  $('kpis').innerHTML=`
+   <div class="card"><div class="kl">回收份數${rows.length!==all?'（篩選後）':''}</div><div class="kv">${rows.length} <small>／目標 ${TARGET}</small></div><div class="prog"><i style="width:${Math.min(100,pct(all,TARGET))}%"></i></div><div class="ks">全部 ${all} 份，達成 ${fmt(pct(all,TARGET))}｜填答截止 12/10</div></div>
+   <div class="card"><div class="kl">訂戶續訂意願（一定會＋可能會）</div><div class="kv">${c4.length?fmt(renew):'—'}</div><div class="ks">自費 <span class="up">${kSub('自費訂戶')}</span>　公司或贈閱 <span class="dn">${kSub('公司或贈閱訂戶')}</span></div></div>
+   <div class="card"><div class="kl">訂戶推薦意願（一定會＋可能會）</div><div class="kv">${c6.length?fmt(rec):'—'}</div><div class="ks">延續 2023 題目｜2023 對照值：待補</div></div>
+   <div class="card"><div class="kl">對任一合作產品「很有興趣」</div><div class="kv">${d1.length?fmt(hot):'—'}</div><div class="ks">${topD1&&d1.length?`最受歡迎：<b>${esc(topD1.row)}</b>（${fmt(topD1.p)}）`:'尚無回答'}</div></div>`;
 
-  // 回收
-  card('cSeg','身分分布',`n = ${rows.length}`, bars(SEGS.map(s=>({l:s,c:rows.filter(r=>r.seg===s).length})), rows.length));
-  const srcCount = {}; rows.forEach(r=>{const k=SRC_LABEL[r.src]||r.src||'未帶來源'; srcCount[k]=(srcCount[k]||0)+1;});
-  card('cSrc','回收管道',`n = ${rows.length}｜依追蹤連結的來源參數`, bars(Object.entries(srcCount).map(([l,c])=>({l,c})).sort((a,b)=>b.c-a.c), rows.length));
-  const byDay = {}; rows.forEach(r=>{const d=String(r.ts||'').split(/[ T]/)[0]||'未知'; byDay[d]=(byDay[d]||0)+1;});
-  const days = Object.keys(byDay).sort((a,b)=>new Date(a)-new Date(b));
-  card('cDay','每日回收',`共 ${days.length} 天`, bars(days.map(d=>({l:d,c:byDay[d]})), rows.length).replace(/<span class="fill top"/,'<span class="fill"'));
+  // 總覽
+  $('oHeat').innerHTML=heatmap(base);
+  $('oDaily').innerHTML=daily(rows);
+  $('oSat').innerHTML=satCard(subs);
 
   // 合作需求
-  gridCard('cD1', rows, 'D1', 0, '右側數字＝很有興趣，依此排序');
-  optCard('cD2', rows, 'D2'); optCard('cD3', rows, 'D3');
-  gridCard('cD4', rows, 'D4', null, '右側數字＝有興趣比例；色塊越深預算越高', '', d=>100-pct(d.segs[0].n,d.n));
-  optCard('cD5', rows, 'D5'); optCard('cD6', rows, 'D6'); optCard('cD7', rows, 'D7');
+  $('pGrid').innerHTML = `<div class="card wide">${heatmap(base)}</div>` +
+    cardGrid(rows,'D4',{val:(c,n)=>100-pct(c[0],n),valName:'有興趣比例',note:'色塊越深預算越高'}) +
+    cardOpt(rows,'D3') + cardOpt(rows,'D2') + cardOpt(rows,'D5') + cardOpt(rows,'D6') + cardOpt(rows,'D7');
 
-  // 訂戶
-  const w1 = '（訂戶）';
-  optCard('cC4', subs, 'C4', false, w1); optCard('cC6', subs, 'C6', false, w1);
-  optCard('cC5', subs, 'C5', true, w1); optCard('cC1', subs, 'C1', true, w1);
-  gridCard('cC2', subs, 'C2', 0, '右側數字＝用過，依此排序', w1);
-  gridCard('cC3', subs, 'C3', null, '右側數字＝滿意度（很滿意＋還算滿意，不含沒有使用）', w1, d=>pct(d.segs[2].n+d.segs[3].n, d.n-d.segs[4].n));
-  optCard('cC7', subs, 'C7', false, w1); optCard('cS2', subs, 'S2', false, w1); optCard('cS3', subs, 'S3', false, w1);
+  // 訂戶經營
+  const w1='（訂戶）';
+  $('sGrid').innerHTML = cardOpt(subs,'C4',{who:w1,ordered:true}) + cardOpt(subs,'C6',{who:w1,ordered:true}) +
+    cardOpt(subs,'C5',{who:w1}) + cardOpt(subs,'C1',{who:w1}) +
+    cardGrid(subs,'C2',{who:w1,val:(c,n)=>pct(c[0],n),valName:'用過比例'}) +
+    `<div class="card">${satCard(subs)}</div>` + cardOpt(subs,'C7',{who:w1,ordered:true}) +
+    cardOpt(subs,'S4',{who:w1,ordered:true}) + cardOpt(subs,'S2',{who:w1,ordered:true}) + cardOpt(subs,'S3',{who:w1,ordered:true});
 
   // 非訂戶
-  const w2 = '（曾訂戶＋會員）';
-  gridCard('cE1', non, 'E1', 0, '右側數字＝用過，依此排序', w2);
-  optCard('cE2', non, 'E2', true, w2); optCard('cE3', non, 'E3', true, w2); optCard('cE4', non, 'E4', false, w2);
+  const w2='（曾訂戶＋會員）';
+  $('nGrid').innerHTML = cardGrid(non,'E1',{who:w2,val:(c,n)=>pct(c[0],n),valName:'用過比例'}) +
+    cardOpt(non,'E2',{who:w2}) + cardOpt(non,'E3',{who:w2}) + cardOpt(non,'E4',{who:w2,ordered:true});
 
-  // 輪廓
-  ['A1','A2','B1','B2','B4'].forEach(c=>optCard('c'+c, rows, c));
-  ['B3','A3','F2','F5','F4','F3','F7','F8','F1'].forEach(c=>optCard('c'+c, rows, c, c==='B3'||c==='F4'||c==='F3'));
+  // 讀者輪廓
+  $('rGrid').innerHTML = ['A1','A2','B1','B2','B4'].map(c=>cardOpt(rows,c)).join('') +
+    ['B3','A3','F2','F5','F4','F3','F7','F8','F1'].map(c=>cardOpt(rows,c,{ordered:true})).join('');
 
-  // 名單
-  const g1 = rows.filter(r=>r.G1==='願意').length;
-  const f6 = rows.filter(r=>String(r.F6).startsWith('願意')).length;
-  card('cLeads','可跟進的名單人數','', `<div class="leads">
-    <div><b>${g1}</b>願意參加深度訪談（G1）</div>
-    <div><b>${f6}</b>願意推薦公司了解企業團體方案（F6）</div></div>`);
-
-  texts('cD8', rows, 'D8'); texts('cG3', rows, 'G3');
+  // 開放題與名單
+  const g1=rows.filter(r=>r.G1==='願意').length, f6=rows.filter(r=>String(r.F6).startsWith('願意')).length;
+  $('qGrid').innerHTML = `<div class="card wide"><h3>可跟進的名單人數</h3><div class="sub">只顯示人數；聯絡資料請到回覆試算表篩選</div><div class="leads"><div><b>${g1}</b>願意參加深度訪談（G1）</div><div><b>${f6}</b>願意推薦公司了解企業團體方案（F6）</div></div></div>` + texts(rows,'D8') + texts(rows,'G3');
 }
 
-/* ================= Google 登入與讀取 ================= */
-let tokenClient = null;
-function initAuth(){
-  if (!window.google || !google.accounts) return false;
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CONFIG.CLIENT_ID, scope: CONFIG.SCOPE,
-    callback: resp => { if (resp.error){ alert('登入失敗：' + resp.error); return; } TOKEN = resp.access_token; loadLive(); }
-  });
-  return true;
+/* ================= 資料載入 ================= */
+function setData(rows, mode){
+  DATA = rows.map(r=>({...r, seg:segOf(r)})); MODE=mode; LAST=new Date();
+  fillSelect('fSrc','管道',[...new Set(DATA.map(srcName))]);
+  $('status').textContent = mode==='live'?'● 即時資料':'● 模擬資料'; $('status').className='chip '+(mode==='live'?'live':'demo');
+  $('notice').hidden = mode==='live';
+  $('notice').innerHTML = '目前顯示的是<b>模擬資料</b>（620 筆），僅供確認版面。按右上角「登入 Google 載入即時資料」即可切換。';
+  drawPills(); render();
 }
-async function api(path){
-  const res = await fetch('https://sheets.googleapis.com/v4/spreadsheets/' + CONFIG.SHEET_ID + path, {headers:{Authorization:'Bearer ' + TOKEN}});
-  if (!res.ok){ const t = await res.text(); throw new Error(res.status + ' ' + t.slice(0,300)); }
-  return res.json();
-}
+let tokenClient=null;
+function initAuth(){ if(!window.google||!google.accounts) return false;
+  tokenClient=google.accounts.oauth2.initTokenClient({client_id:CONFIG.CLIENT_ID,scope:CONFIG.SCOPE,callback:resp=>{ if(resp.error){alert('登入失敗：'+resp.error);return;} TOKEN=resp.access_token; loadLive(); }}); return true; }
+async function api(path){ const res=await fetch('https://sheets.googleapis.com/v4/spreadsheets/'+CONFIG.SHEET_ID+path,{headers:{Authorization:'Bearer '+TOKEN}});
+  if(!res.ok){ throw new Error(res.status+' '+(await res.text()).slice(0,300)); } return res.json(); }
 async function loadLive(){
-  try{
-    $('btnLogin').textContent = '載入中…';
-    const meta = await api('?fields=sheets.properties(title,gridProperties)');
-    const sheets = meta.sheets.map(s=>s.properties);
-    const target = sheets.find(s=>/表單回應|Form[ _]?Responses/i.test(s.title)) || sheets.sort((a,b)=>b.gridProperties.columnCount-a.gridProperties.columnCount)[0];
-    const v = await api('/values/' + encodeURIComponent("'" + target.title + "'") + '?valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=FORMATTED_STRING');
-    const values = v.values || [];
-    if (values.length < 2){
-      setData([], 'live');
-      $('notice').style.display='block';
-      $('notice').innerHTML = `已連上回覆試算表（工作表「${escapeHtml(target.title)}」），目前還沒有回覆。可按「切換模擬資料」先看版面。`;
-    } else setData(parseSheet(values), 'live');
-    $('btnRefresh').disabled = false;
-  } catch(e){
-    console.error(e);
-    alert('讀取失敗：' + e.message + '\n\n請確認：1) 登入的帳號是 OAuth 測試使用者；2) 該帳號有這份回覆試算表的檢視權限；3) 網址是 https://bruno0330.github.io/… 或 http://127.0.0.1:8793');
-  } finally { $('btnLogin').textContent = '登入 Google 並載入即時資料'; }
+  try{ $('btnLogin').textContent='載入中…';
+    const meta=await api('?fields=sheets.properties(title,gridProperties)'); const sheets=meta.sheets.map(s=>s.properties);
+    const target=sheets.find(s=>/表單回應|Form[ _]?Responses/i.test(s.title))||sheets.sort((a,b)=>b.gridProperties.columnCount-a.gridProperties.columnCount)[0];
+    const v=await api('/values/'+encodeURIComponent("'"+target.title+"'")+'?valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=FORMATTED_STRING');
+    const values=v.values||[];
+    setData(values.length>1?parseSheet(values):[],'live');
+    if(values.length<2){ $('notice').hidden=false; $('notice').innerHTML=`已連上回覆試算表（工作表「${esc(target.title)}」），目前還沒有回覆。可按「切換模擬資料」先看版面。`; }
+    $('btnRefresh').disabled=false;
+  }catch(e){ console.error(e); alert('讀取失敗：'+e.message+'\n\n請確認：1) 登入的帳號是 OAuth 測試使用者；2) 該帳號有回覆試算表的檢視權限。'); }
+  finally{ $('btnLogin').textContent='登入 Google 載入即時資料'; }
 }
-$('btnLogin').onclick = () => {
-  if (location.protocol === 'file:'){ alert('請用網址開啟（GitHub Pages 或 http://127.0.0.1:8793），直接開檔案無法登入 Google。'); return; }
-  if (!tokenClient && !initAuth()){ alert('Google 登入元件尚未載入，請稍候再試。'); return; }
-  tokenClient.requestAccessToken({prompt: TOKEN ? '' : 'consent'});
-};
-$('btnRefresh').onclick = () => TOKEN ? loadLive() : $('btnLogin').click();
-$('btnDemo').onclick = () => setData(makeDemo(), 'demo');
+$('btnLogin').onclick=()=>{ if(location.protocol==='file:'){alert('請用網址開啟，直接開檔案無法登入 Google。');return;}
+  if(!tokenClient&&!initAuth()){alert('Google 登入元件尚未載入，請稍候再試。');return;} tokenClient.requestAccessToken({prompt:TOKEN?'':'consent'}); };
+$('btnRefresh').onclick=()=>TOKEN?loadLive():$('btnLogin').click();
+$('btnDemo').onclick=()=>setData(makeDemo(),'demo');
 
-/* ================= 匯出快照（不含開放題與任何聯絡資料） ================= */
-$('btnSnap').onclick = () => {
-  const clone = $('report').cloneNode(true);
+/* ================= 匯出快照（不含開放題與聯絡資料） ================= */
+$('btnSnap').onclick=()=>{
+  const clone=$('report').cloneNode(true);
   clone.querySelectorAll('.no-snapshot').forEach(e=>e.remove());
-  const n = clone.querySelector('#notice'); if (n && MODE==='live') n.remove();
-  const f = ['fSeg','fAge','fRole','fSrc'].map(id=>$(id)).filter(s=>s.value).map(s=>s.closest('label').firstChild.textContent.trim()+'：'+s.value);
-  const stamp = new Date();
-  const html = `<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>讀者調查快照</title><style>${$('dash-style').textContent}</style></head><body>
-<header><div><h1>遠見讀者調查 2026｜快照</h1><div class="sub">${MODE==='live'?'即時資料':'模擬資料'}｜匯出於 ${stamp.toLocaleString('zh-TW',{hour12:false})}｜篩選：${f.length?f.join('、'):'全部'}</div></div></header>
-<main>${clone.innerHTML}</main><footer>此為靜態快照，不含開放題與聯絡資料。</footer></body></html>`;
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([html],{type:'text/html'}));
-  a.download = `讀者調查快照_${stamp.getFullYear()}${String(stamp.getMonth()+1).padStart(2,'0')}${String(stamp.getDate()).padStart(2,'0')}.html`;
-  a.click();
+  clone.querySelectorAll('section[data-tab]').forEach(s=>{ s.hidden=false; s.removeAttribute('hidden'); const t=TABS.find(x=>x[0]===s.dataset.tab); if(t){ const h=document.createElement('h2'); h.textContent=t[1]; h.style.cssText='color:#0B2556;font-size:18px;margin:28px 0 12px'; s.prepend(h);} });
+  if(MODE==='live'){ const n=clone.querySelector('#notice'); if(n) n.remove(); }
+  const f=[SEG?'身分：'+SEG:'',...['fAge','fRole','fSrc'].map(id=>$(id).value?$(id).selectedOptions[0].textContent:'')].filter(Boolean);
+  const stamp=new Date();
+  const html=`<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>讀者需求快照</title><style>${$('dash-style').textContent}</style></head><body>
+<div class="top" style="padding-bottom:16px"><div class="brand"><div class="k">遠見行銷部｜讀者調查 2026</div><h1>讀者需求快照</h1></div><div class="ks" style="margin-top:6px">${MODE==='live'?'即時資料':'模擬資料'}｜匯出於 ${stamp.toLocaleString('zh-TW',{hour12:false})}｜篩選：${f.length?esc(f.join('、')):'全部'}</div></div>
+<main>${clone.innerHTML}</main><footer>此為靜態快照，不含開放題與聯絡資料；重點文字依數據自動產生。</footer></body></html>`;
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  a.download=`讀者需求快照_${stamp.getFullYear()}${String(stamp.getMonth()+1).padStart(2,'0')}${String(stamp.getDate()).padStart(2,'0')}.html`; a.click();
 };
 
-setData(makeDemo(), 'demo');
+drawPills();
+setData(makeDemo(),'demo');
 </script>
 </body>
 </html>
